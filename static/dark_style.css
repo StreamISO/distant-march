@@ -1,0 +1,378 @@
+* {
+    font-family: 'Segoe UI', 'SimSun', Tahoma, Geneva, Verdana, sans-serif;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+}
+
+.automator {
+    position: absolute;
+    width: 1600px;
+    height: 580px;
+    background-color: #000000;
+    border-color: #ffffff;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.b_automator {
+    position: absolute;
+    width: 60px;
+    height: 25px;
+    font-size: 15px;
+    transition: 0.35s;
+    border-radius: 0px;
+    color: #ffffff;
+    background-color: #000000;
+}
+
+.option_menu {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 30px;
+    background-color: #000000;
+    border-bottom: 3px solid #7f7f7f;
+}
+
+button:disabled {
+    background-color: #2f2f2f;
+    color: #4f4f4f;
+    transition: 0.35s;
+}
+
+button:hover {
+    background-color: #2f2f2f !important;
+    transition: 0.35s;
+}
+
+.menubutton {
+    background-color: #000000;
+    color: #ffffff;
+    width: 100px;
+    height: 30px;
+    border: 0px;
+    margin: 0px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.global {
+    background-color: #000000;
+    color: #ffffff;
+    position: absolute;
+    top: 38px;
+    left: 0px;
+    width: 100%;
+    height: 252px;
+    text-align: center;
+}
+
+.filling {
+    background-color: #000000;
+    position: absolute;
+    top: 290px;
+    left: 0px;
+    width: 100%;
+    height: 1000px;
+}
+
+.substance {
+    background-color: #000000;
+    color: #ffffff;
+    position: absolute;
+    top: 290px;
+    left: 80px;
+    width: 1800px;
+    height: 622px;
+}
+
+.mach_substance {
+    background-color: #000000;
+    color: #ffffff;
+    position: absolute;
+    top: 290px;
+    left: 80px;
+    width: 1800px;
+    height: 2060px;
+}
+
+.stars_substance {
+    background-color: #000000;
+    color: #ffffff;
+    position: absolute;
+    top: 290px;
+    left: 80px;
+    width: 1800px;
+    height: 4500px;
+}
+
+.b_substance {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    width: 320px;
+    height: 50px;
+    margin: 5px;
+    text-align: center;
+    font-size: 20px;
+    transition: 0.35s;
+}
+
+.b_reset {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    width: 240px;
+    height: 120px;
+    margin: 5px;
+    text-align: center;
+    font-size: 35px;
+    transition: 0.35s;
+}
+
+.b_mach_upgrade {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    width: 300px;
+    height: 175px;
+    margin: 8px;
+    text-align: center;
+    font-size: 20px;
+    transition: 0.35s;
+}
+
+.b_stars_reset {
+    background-color: #000000;
+    color: #ffffff;
+    width: 450px;
+    height: 150px;
+    border: 6px double;
+    margin: 8px;
+    text-align: center;
+    font-size: 20px;
+    transition: 0.35s;
+}
+
+.b_stars_upgrade {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    width: 300px;
+    height: 175px;
+    margin: 8px;
+    text-align: center;
+    font-size: 20px;
+    transition: 0.35s;
+}
+
+.b_stars_upgradesm {
+    background-color: #000000;
+    color: #ffffff;
+    width: 60px;
+    height: 30px;
+    margin: 4px;
+    text-align: center;
+    font-size: 18px;
+    transition: 0.35s;
+}
+
+.target {
+    background-color: #000000;
+    position: absolute;
+    top: 850px;
+    left: 0px;
+    width: 100%;
+    height: 62px;
+}
+
+progress {
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.input {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+}
+
+text {
+    font-size: 22px;
+}
+
+.vel {
+    font-size: 65px;
+    color: #00d0f0;
+    text-shadow: 5px 10px 16px;
+    width: 600px;
+}
+
+.dist {
+    font-size: 40px;
+    color: #0033cc;
+    width: 600px;
+}
+
+.dilated_time {
+    font-size: 65px;
+    text-shadow: 5px 10px 16px;
+    color: #ff00dd;
+    width: 600px;
+}
+
+.dilation_level {
+    font-size: 40px;
+    color: #ff00dd;
+    width: 600px;
+}
+
+.b_matrix_reset {
+    background-color: #000000;
+    color: #ffffff;
+    width: 700px;
+    height: 180px;
+    border: 6px double;
+    margin: 8px;
+    text-align: center;
+    font-size: 20px;
+    transition: 0.35s;
+}
+
+.trianglelg {
+    width: 300px;
+    height: 50px;
+    clip-path: polygon(0 0, 300px 0px, 0 50px, 0 0);
+    background-color: #4f4f4f;
+}
+
+.trianglelw {
+    width: 300px;
+    height: 50px;
+    clip-path: polygon(0 0, 300px 0px, 0 50px, 0 0);
+    background-color: #000000;
+}
+
+.trianglelgsm {
+    width: 60px;
+    height: 15px;
+    clip-path: polygon(0 0, 60px 0px, 0 15px, 0 0);
+    background-color: #4f4f4f;
+}
+
+.trianglelwsm {
+    width: 60px;
+    height: 15px;
+    clip-path: polygon(0 0, 60px 0px, 0 15px, 0 0);
+    background-color: #000000;
+}
+
+.rectmg {
+    width: 2px;
+    height: 50px;
+    background-color: #4f4f4f;
+}
+
+.rectmgsm {
+    width: 2px;
+    height: 15px;
+    background-color: #4f4f4f;
+}
+
+.trianglerg {
+    width: 300px;
+    height: 50px;
+    clip-path: polygon(0 0, 300px 0px, 300px 50px, 0 0);
+    background-color: #4f4f4f;
+}
+
+.trianglerw {
+    width: 300px;
+    height: 50px;
+    clip-path: polygon(0 0, 300px 0px, 300px 50px, 0 0);
+    background-color: #000000;
+}
+
+.trianglergsm {
+    width: 60px;
+    height: 15px;
+    clip-path: polygon(0 0, 60px 0px, 60px 15px, 0 0);
+    background-color: #4f4f4f;
+}
+
+.trianglerwsm {
+    width: 60px;
+    height: 15px;
+    clip-path: polygon(0 0, 60px 0px, 60px 15px, 0 0);
+    background-color: #000000;
+}
+
+.rectfg {
+    width: 50px;
+    height: 2px;
+    background-color: #4f4f4f;
+}
+
+.rectfgsm {
+    width: 23px;
+    height: 2px;
+    background-color: #4f4f4f;
+}
+
+a {
+    font-size: 20px;
+}
+
+.fullscreen {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    pointer-events: none;
+}
+
+.b_blackhole {
+    background-color: #000000;
+    width: 360px;
+    height: 360px;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 50%;
+    transition: 0.35s;
+}
+
+#t_blackhole {
+    text-shadow: 1px 2px 1px;
+}
+
+.booster {
+    background-color: #afafaf;
+    width: 60px;
+    height: 60px;
+    padding: 0px;
+    margin: 0px;
+    transition: 0.35s;
+}
+
+img {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 50px;
+    height: 50px;
+}
+
+.b_dream {
+    background-color: #000000;
+    color: #ffffff;
+    width: 320px;
+    height: 100px;
+    margin: 5px;
+    text-align: center;
+    font-size: 30px;
+    transition: 0.35s;
+}
