@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title id='title'>游戏说明</title>
+    <link rel='shortcut icon' href='dm.svg' />
+    <link rel='stylesheet' href='style.css' />
+</head>
+
+<body>
+    <input type='file' class='b_substance' style='position: absolute; top: 50px; left: 700px;' id='fileInput_intro'>
+    <button type='button' class='b_substance' style='position: absolute; top: 50px; left: 1200px;'
+        id='import_save_intro' onclick='import_local("fileInput_intro");'>导入存档以显示更多内容</button>
+    <text style='position: absolute; top: 50px; left: 50px;'>快捷标签:</text>
+    <a href='#intro_1_title' style='position: absolute; top: 100px; left: 50px;'>简介</a>
+    <text id='intro_1_title'
+        style='font-size: 50px; position: absolute; top: 250px; left: 50px;'><strong>简介</strong></text>
+    <text id='intro_1_1' style='position: absolute; top: 350px; left: 50px;'><strong>缘祯(Distant March)</strong>
+        是一款基于文字的增量游戏<br />你的终极目标是: <strong style="color: #ff0000;">达到光速!</strong><br />游玩此游戏,
+        你需具备一定的策略与编程技巧, 并且要有及时重置的意识 (磨刀不误砍柴工)<br /><br />此游戏纪念作者 Stream 的白月光 RKZ</text>
+    <a href='#intro_2_title' style='position: absolute; top: 100px; left: 100px;'>物质</a>
+    <text id='intro_2_title'
+        style='font-size: 50px; position: absolute; top: 600px; left: 50px;'><strong>物质</strong></text>
+    <text id='intro_2_1'
+        style='position: absolute; top: 700px; left: 50px;'>你能购买的第一个物质应该是推进器<br /><strong>推进器</strong>可以获得推力,
+        进而获得<strong style='color: #00aa00'>速度</strong>,
+        达到一定数量的推进器后也可以购买其他物质<br />拥有<strong style='color: #00aa00'>速度</strong>之后, 你就可以获得<strong
+            style='color: #0033cc'>位移</strong>,
+        <strong style='color: #0033cc'>位移</strong>可以购买推进器与计数器<br /><strong>计数器</strong>可以提供位移获取倍数, 也就是你获得<strong
+            style='color: #0033cc'>位移</strong>的速度会乘上这个倍数<br /><strong>涡轮机</strong>当你的推进器达到指定数量时,
+        允许购买涡轮机, 购买后重置推进器数量 (当然也有价格) 与<strong style='color: #0033cc'>位移</strong>, 但可以使之后的推进器推力更大<br /><span
+            id='intro_2_1_flow' style='display: none;'><strong>整流罩</strong>与涡轮机相似, 会重置一定的物质, 可以降低<strong>空气阻力</strong>
+            (初始空气阻力公式 f=0.2v^2+2v)</span><br /><span id='intro_2_1_stellar'
+            style='display: none;'><strong>恒星引擎</strong>只能购买一个,
+            购买后恒星引擎会根据当前充能提供加成, 充能上限为 (<strong style='color: #00aa00'></strong>马赫点数</strong> +
+            10), 充能速度为每秒 xlog10(当前<strong style='color: #00aa00'>速度</strong>)</span></text>
+    <a id='intro_3_link' href='#intro_3_title'
+        style='display: none; position: absolute; top: 100px; left: 150px;'>音速升级</a>
+    <text id='intro_3_title'
+        style='display: none; font-size: 50px; position: absolute; top: 1000px; left: 50px;'><strong>音速升级</strong></text>
+    <text id='intro_3_1' style='display: none; position: absolute; top: 1100px; left: 50px;'>达到一次音速后, 你将迎来一次真正的重置,
+        失去之前的进度来获得<strong style='color: #00aa00'>马赫点数</strong><br /><strong
+            style='color: #00aa00'>马赫点数</strong>可以用来购买音速升级,
+        它们可以使你之后达到音速更为简单<br />第4列的音速升级是可投资的, 它们的效果取决于你投入的<strong style='color: #00aa00'>马赫点数</strong>,
+        达到上限后变为不可点击<br />音速升级有横纵坐标, 如音速升级42就是第4行第2列</text>
+    <a id='intro_4_link' href='#intro_4_title'
+        style='display: none; position: absolute; top: 100px; left: 240px;'>自动</a>
+    <text id='intro_4_title'
+        style='display: none; font-size: 50px; position: absolute; top: 1300px; left: 50px;'><strong>自动</strong></text>
+    <text id='intro_4_1' style='display: none; position: absolute; top: 1400px; left: 50px;'>自动程序每1秒运行一次,
+        在购买了音速升级44后时间间隔缩短, 最低为10ms (也就是每个tick)<br /><span id='intro_4_1_autoreset'
+            style='display: none;'><strong>自动重置</strong>会在你当前重置能获得的<strong style='color: #00aa00'>马赫点数</strong>到达设定值
+            (阈值) 时重置当前周目, 数值不能超过1e308</span><br /><span id='intro_4_1_automach42'
+            style='display: none;'><strong>自动购买音速升级42</strong>会在你当前的<strong
+                style='color: #00aa00'>马赫点数</strong>超过音速升级42投入点数的10倍情况下自动进行一次投入</span><br /><span
+            id='intro_4_1_timerreset' style='display: none;'><strong>定时重置</strong>每过 设定数 秒进行一次重置</span></text>
+    <a id='intro_5_link' href='#intro_5_title'
+        style='display: none; position: absolute; top: 100px; left: 290px;'>突破音障</a>
+    <text id='intro_5_title'
+        style='display: none; font-size: 50px; position: absolute; top: 1600px; left: 50px;'><strong>突破音障</strong></text>
+    <text id='intro_5_1'
+        style='display: none; position: absolute; top: 1700px; left: 50px;'>当你能够在<strong>1000ms</strong> (也就是100个tick)
+        内达到音速时, 你将获得突破音障的权利, 通过点击<strong>突破音障</strong>按钮来激活此效果<br /><strong style='color: #00aa00'>速度</strong>超过340m/s后,
+        空气阻力会开始大幅增加,
+        表现为阻力的高次项次数随<strong style='color: #00aa00'>速度</strong>逐渐上升<br />当然, <strong
+            style='color: #00aa00'>速度</strong>超过340m/s后, 获得的<strong style='color: #00aa00'>马赫点数</strong>也会更多<br /><span
+            id='intro_5_1_fallreset' style='display: none;'>当<strong style='color: #00aa00'>速度</strong>超过初心速度 (第一宇宙速度
+            7.92e3m/s) 时, 重置类型将由音爆变为<strong>落心 (Fall)</strong>, 落心可以额外获得<strong
+                style='color: #ff9900'>碎心</strong><br /><strong style='color: #ff9900'>碎心</strong>可以降低空气阻力高次项的次数,
+            进而大幅降低空气阻力大小</span></text>
+    <a id='intro_6_link' href='#intro_6_title'
+        style='display: none; position: absolute; top: 100px; left: 380px;'>限制</a>
+    <text id='intro_6_title'
+        style='display: none; font-size: 50px; position: absolute; top: 1950px; left: 50px;'><strong>限制</strong></text>
+    <text id='intro_6_1'
+        style='display: none; position: absolute; top: 2050px; left: 50px;'>在挑战页面选中若干限制后点击激活<strong>限制</strong>,
+        将重置当前周目并应用选中的限制<br />当达成成就时, 若有限制, 则能够提升成就等级, 成就等级为
+        (1+选中的限制数量)<br /><strong style='color: #ffaa00'>总成就等级</strong>基数为每个成就的<strong
+            style='color: #ffaa00'>成就等级</strong>之和,
+        它可以为游戏提供多方面的加成<br /><span id='intro_6_1_starre' style='display: none;'>如果启用<strong
+                style='color: #002099;'>星辰挑战</strong>,
+            则限制将生效一整个星辰周目</span></text>
+    <a id='intro_7_link' href='#intro_7_title'
+        style='display: none; position: absolute; top: 100px; left: 430px;'>挑战</a>
+    <text id='intro_7_title'
+        style='display: none; font-size: 50px; position: absolute; top: 2300px; left: 50px;'><strong>挑战</strong></text>
+    <text id='intro_7_1' style='display: none; position: absolute; top: 2400px; left: 50px;'>一次只能启用一个挑战,
+        但能与多个限制一同食用<br />先选中限制, 在点击挑战来启动带限制的挑战<br />挑战具有生效一整个周目的负面效果,
+        达到要求<strong style='color: #00aa00'>速度</strong>来完成挑战, 若你觉得当前挑战无法完成,
+        可以点击<strong>退出挑战</strong><br />完成挑战时, 挑战等级将提升 (1+选中的限制数量), 并获得对应的挑战奖励 (第 挑战等级 项),
+        等级越高奖励越好<br /><span id='intro_7_1_starch' style='display: none;'><strong
+                style='color: #002099;'>星辰挑战</strong>会连同限制生效一整个星辰周目, 并且启动星辰挑战需一定<strong
+                style='color: #002099;'>星辰点数</strong>,
+            其他与挑战相似</span></text>
+    <a id='intro_8_link' href='#intro_8_title'
+        style='display: none; position: absolute; top: 100px; left: 480px;'>星辰</a>
+    <text id='intro_8_title'
+        style='display: none; font-size: 50px; position: absolute; top: 2700px; left: 50px;'><strong>星辰</strong></text>
+    <text id='intro_8_1' style='display: none; position: absolute; top: 2800px; left: 50px;'>当<strong
+            style='color: #00aa00'>速度</strong>达到1.00e5m/s时, 你将可以进行<strong>流星雨</strong>重置, 这将结束你当前的星辰周目<br />重置后,
+        下个星辰周目将基于重置前<strong style='color: #00aa00'>速度</strong>获得<strong style='color: #002099;'>星辰点数</strong>,
+        1.00e5m/s对应1个, 之后<strong style='color: #00aa00'>速度</strong>每 x1.1 就多获得一个<strong
+            style='color: #002099;'>星辰点数</strong><br /><strong style='color: #002099;'>星辰点数</strong>获取数量不能叠加,
+        只取最大值<br /><strong style='color: #002099;'>星辰点数</strong>可用来购买星辰链升级, 勾选重置星辰链再流星雨可以退回升级并返还<strong
+            style='color: #002099;'>星辰点数</strong></text>
+    <a id='intro_9_link' href='#intro_9_title'
+        style='display: none; position: absolute; top: 100px; left: 530px;'>相对论</a>
+    <text id='intro_9_title'
+        style='display: none; font-size: 50px; position: absolute; top: 3100px; left: 50px;'><strong>相对论</strong></text>
+    <text id='intro_9_1' style='display: none; position: absolute; top: 3200px; left: 50px;'>当<strong
+            style='color: #00aa00'>速度</strong>达到3.00e6m/s时, 你将可以进行<strong>矩阵覆写</strong>重置, 这将结束你当前的矩阵周目<br />重置后,
+        你就可以获得<span style='color: #ff00dd'>膨胀时间</span>, 这可以加快你的游戏进程<br /><strong style='color: #00aa00'>速度</strong>足够高时,
+        物体的质量也会大幅增长, 最直接的影响就是<strong style='color: #00aa00'>速度</strong>增长变慢<br />相对论时间公式: 游戏时间 = 时间速率 / [ 1 - ( <strong
+            style='color: #00aa00'>速度</strong> / 光速 ) ^ 77 ]<br />为了可玩性, 只有速度使用以上公式, 其他资源获取都是直接乘以时间速率</text>
+    <a id='intro_10_link' href='#intro_10_title'
+        style='display: none; position: absolute; top: 100px; left: 600px;'>黑洞视界</a>
+    <text id='intro_10_title'
+        style='display: none; font-size: 50px; position: absolute; top: 3500px; left: 50px;'><strong>黑洞视界</strong></text>
+    <text id='intro_10_1'
+        style='display: none; position: absolute; top: 3600px; left: 50px;'>黑洞视界具有不同的运行规则:<br />1.相对论光速初始为 340m/s,
+        可被黑洞提升<br />2.整流罩, 碎心均不生效<br />3.视界光速达到 7.92e3m/s 后, 视界会产生时间阻抗阻碍你进一步推进, 可以通过提升恒星引擎充能来减弱时间阻抗<br />在黑洞视界内达到 340m/s
+        后可以稳定生产膨胀时间, 效率远高于矩阵覆写</text>
+    <a id='intro_11_link' href='#intro_11_title'
+        style='display: none; position: absolute; top: 100px; left: 690px;'>黑洞</a>
+    <text id='intro_11_title'
+        style='display: none; font-size: 50px; position: absolute; top: 3900px; left: 50px;'><strong>黑洞</strong></text>
+    <text id='intro_11_1' style='display: none; position: absolute; top: 4000px; left: 50px;'>第一次矩阵覆写后, 你会获得 5 个基础黑洞,
+        之后每次矩阵覆写都会允许你在 3 个随机黑洞中选择一个<br />黑洞仅在视界中运行, 每个黑洞都对应一个效果与耗能, 能量耗尽后停止运行<br />运行时, 从左至右, 从上至下运行每个黑洞直到能量耗尽,
+        当运行完最后一个黑洞时随机打乱所有黑洞后再从头运行<br />每秒运行 1 个黑洞, 这个数值可被时间升级加强</text>
+    <a id='intro_12_link' href='#intro_12_title'
+        style='display: none; position: absolute; top: 100px; left: 740px;'>自动化</a>
+    <text id='intro_12_title'
+        style='display: none; font-size: 50px; position: absolute; top: 4300px; left: 50px;'><strong>自动化</strong></text>
+    <text id='intro_12_1' style='display: none; position: absolute; top: 4400px; left: 50px;'>购买时间升级 "溪流" 后, 在 "自动"
+        界面下解锁子页面 "自动化"<br />你可以键入代码, 通过编程的方式操作游戏<br />下面是所有可用指令 [XXX]表可选:<br /><br />reset threshold [nowait];
+        //在获得<strong style='color: #00aa00'>马赫点数</strong>达到 threshold 时重置, 若有 nowait, 则不满足条件时跳过此语句, 否则等待 (后面 nowait
+        意义相同)<br />E.g: reset 1.00e30; //等待单次重置能获得 1.00e30 <strong
+            style='color: #00aa00'>马赫点数</strong>时重置<br /><br />star threshold [nowait] [respec]; //在<strong
+            style='color: #002099;'>星辰点数</strong>达到 threshold 时流星雨,
+        若有 respec, 则重置星辰链<br />E.g: star 32 respec; //等待能获得 32 <strong style='color: #002099;'>星辰点数</strong>时流星雨,
+        并重置星辰链<br /><br />purchase [nowait] x1, x2, ..., xn; //购买星辰链 x1~xn 项升级<br />E.g: purchase nowait 01, 11, 13, 23;
+        //购买星辰链 Start, 11, 13, 23. 若不成功, 直接跳过<br /><br />restriction c1, c2, c3, c4; // c1~c4 = 0,off / 1,on. 将第 1~4
+        个限制选择状态设为 c1~c4<br />E.g: restriction on on on on; //勾选所有限制<br /><br />challenge which [nowait] [star]; //进行第
+        which 个挑战, 若有 star, 则为星辰挑战<br />E.g: challenge 4 star; //进行星辰挑战4<br /><br />matrix threshold; //在维度等级达到
+        threshold 时矩阵覆写<br />E.g: matrix 0; //能矩阵覆写时立刻执行<br /><br />auto type [c] [value]; //c= on / off, 默认 on.将 type
+        自动购买设为 c , 若有数值, 则将此自动购买的数值改为 value<br />E.g: auto timer 5.00; //设置定时重置 5s/次<br />所有合法的 type: booster->推进器,
+        counter->计数器, turbo->涡轮机, flow->整流罩, reset->自动重置, stellar->恒星引擎, mach42->自动购买音速升级42, timer->定时重置<br /><br />log
+        text; //在浏览器控制台输出 text<br /><br />按键说明: Run->运行代码, 再点一次暂停 Stop->停止运行, 回到第一行 Loop->循环执行代码
+        MAST->每次矩阵周目开始时自动运行</text>
+</body>
+<script src='vars.js'></script>
+<script src='file.js'></script>
+<script src='substance.js'></script>
+<script src='automation.js'></script>
+<script src='mach.js'></script>
+<script src='break_mach.js'></script>
+<script src='stars.js'></script>
+<script src='relative.js'></script>
+<script src='challenges.js'></script>
+<script src='statistics.js'></script>
+<script src='achievements.js'></script>
+<script src='main.js'></script>
+<script src='intro.js'></script>
+
+</html>

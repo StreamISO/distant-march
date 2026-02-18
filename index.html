@@ -1,0 +1,1180 @@
+<!--
+Name:    缘祯--Distant March
+Author:  StreamISO
+Version: v1.3.2
+-->
+<!DOCTYPE html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title id='title'>缘祯</title>
+    <link rel='shortcut icon' href='static/dm.svg' />
+    <link id='theme' rel='stylesheet' href='static/style.css' />
+</head>
+
+<body id='body'>
+    <div class='option_menu'>
+        <button id='menu1' class='menubutton' style='color:blue' onclick='change_page("menu1")'>物质</button>
+        <button id='menu2' style='display:none' class='menubutton' onclick='change_page("menu2")'>自动</button>
+        <button id='menu3' style='display:none' class='menubutton' onclick='change_page("menu3")'>音速</button>
+        <button id='menu4' style='display:none' class='menubutton' onclick='change_page("menu4")'>突破音障</button>
+        <button id='menu5' style='display:none' class='menubutton' onclick='change_page("menu5")'>星辰</button>
+        <button id='menu6' style='display:none' class='menubutton' onclick='change_page("menu6")'>相对论</button>
+        <button id='menu7' style='display:none' class='menubutton' onclick='change_page("menu7")'>挑战</button>
+        <button id='menu8' class='menubutton' onclick='change_page("menu8")'>统计</button>
+        <button id='menu9' class='menubutton' onclick='change_page("menu9")'>成就</button>
+        <button id='menu0' class='menubutton' onclick='change_page("menu0")'>选项</button>
+    </div>
+    <!--Global-->
+    <div id='basic_global' class='global'>
+        <br />
+        <text id='var_text1'>你现在的速度为:
+            <span class='vel' id='vel'>0</span> m/s, 拥有
+            <span class='dist' id='dist'>10</span>
+            m 位移 (x<span class='mult' id='mult'>1</span>)</text>
+        <br />
+        <text id='mode_text'><span id='mode_text_val'>你现在位于----</span></text><br />
+        <text style='display: none;' id='time_text'><span id='time_texti'></span> (x<span id='time_val'>1.00</span>)
+        </text>
+        <br />
+    </div>
+    <div id='relative_global' class='global'>
+        <br />
+        <text id='var_text2'>你拥有
+            <span class='dilated_time' id='dilated_time'>0</span> s 膨胀时间, 收敛等级为
+            <span class='dilation_level' id='dilation_level'>0</span> (时间速率 x<span class='dilation_mult'
+                id='dilation_mult'>1</span>)</text>
+    </div>
+    <div class='option_menu' style='border-bottom: none; position: absolute; top: 33px; left: 0px;'>
+        <button id='menu2m1' style='display:none;color:blue' class='menubutton'
+            onclick='change_page("menu2",1)'>自动购买</button>
+        <button id='menu2m2' style='display:none' class='menubutton' onclick='change_page("menu2",2)'>自动化</button>
+        <button id='menu6m1' style='display:none;color:blue' class='menubutton'
+            onclick='change_page("menu6",1)'>维度</button>
+        <button id='menu6m2' style='display:none' class='menubutton' onclick='change_page("menu6",2)'>黑洞</button>
+        <button id='menu6m3' style='display:none' class='menubutton' onclick='change_page("menu6",3)'>升级</button>
+        <button id='menu6m4' style='display:none' class='menubutton' onclick='change_page("menu6",4)'>鏡花緣</button>
+        <button id='menu7m1' style='display:none;color:blue' class='menubutton'
+            onclick='change_page("menu7",1)'>限制</button>
+        <button id='menu7m2' style='display:none' class='menubutton' onclick='change_page("menu7",2)'>挑战</button>
+        <button id='menu7m3' style='display:none' class='menubutton' onclick='change_page("menu7",3)'>星辰挑战</button>
+        <button id='menu9m1' style='display:none;color:blue' class='menubutton'
+            onclick='change_page("menu9",1)'>成就</button>
+        <button id='menu9m2' style='display:none' class='menubutton' onclick='change_page("menu9",2)'>命运</button>
+    </div>
+    <!--Filling-->
+    <div class='filling' id='filling'></div>
+    <!--Substance-->
+    <div class='substance' id='substance'>
+        <text style='position: absolute; top:10px; left:0px;' id='ss1'>推进器 (
+            <span id='t_cnt1'>0</span> )</text>
+        <text style='position: absolute; top:10px; left:400px;' id='ss1i'>提供
+            <span id='t_booster_force'>100</span>N的推力</text>
+        <button class='b_substance' style='position: absolute; top:0px; left:1300px;' id='b_ss1'
+            onclick='buy_substance(1,0);valid_operation+=1;'
+            ondblclick='buy_substance(1,1);valid_operation+=1;'>0</button>
+        <text style='position: absolute; top:75px; left:0px;' id='ss2'>计数器 (
+            <span id='t_cnt2'>0</span> )</text>
+        <text style='position: absolute; top:75px; left:400px;' id='ss2i'>位移获取倍数 x<span
+                id='t_counter_mult'>2</span></text>
+        <button class='b_substance' style='position: absolute; top:64px; left:1300px;' id='b_ss2'
+            onclick='buy_substance(2,0);valid_operation+=1;'
+            ondblclick='buy_substance(2,1);valid_operation+=1;'>0</button>
+        <text style='position: absolute; top:140px; left:0px;' id='ss3'>涡轮机 (
+            <span id='t_cnt3'>0</span>
+            <span id='t_cnt3e' style='color:#002099'></span> )</text>
+        <text style='position: absolute; top:140px; left:400px;' id='ss3i'><span id='t_turbo_reset'>重置推进器与计数器数量,
+                速度与位移, </span>推进器推力 x<span id='t_turbo_mult'>1.5</span>
+        </text>
+        <button class='b_substance' style='position: absolute; top:128px; left:1300px;' id='b_ss3'
+            onclick='buy_substance(3,0);valid_operation+=1;' ondblclick='buy_substance(3,1);valid_operation+=1;'>0
+            推进器</button>
+        <text style='display: none;position: absolute; top:205px; left:0px;' id='ss4'>整流罩 (
+            <span id='t_cnt4'>0</span>
+            <span id='t_cnt4e' style='color:#002099'></span> )</text>
+        <text style='display: none;position: absolute; top:205px; left:400px;' id='ss4i'>
+            <span id="t_flow_reset">重置推进器, 计数器与涡轮机数量, 速度与位移,
+            </span>E1 -<span id='t_flow_dec'>0</span>%
+            <span id='t_flow_0_dec'></span>
+        </text>
+        <button class='b_substance' style='display: none;position: absolute; top:192px; left:1300px;' id='b_ss4'
+            onclick='buy_substance(4,0);valid_operation+=1;' ondblclick='buy_substance(4,1);valid_operation+=1;'>0
+            推进器</button>
+        <text style='display: none;position: absolute; top:270px; left:0px;' id='ss5'>恒星引擎 (
+            <span id='t_cnt5'>0</span> )</text>
+        <text style='display: none;position: absolute; top:270px; left:400px;' id='ss5i'>基于当前充能 [<span
+                id='ss5i_val1'>0</span> /
+            <span id='ss5i_val2'>10</span>] 获得额外涡轮机<span id="ss5i_val3"></span></text>
+        <button class='b_substance' style='display: none;position: absolute; top:256px; left:1300px;' id='b_ss5'
+            onclick='buy_substance(5,0);valid_operation+=1;'>0</button>
+        <button class='b_reset' style='display:none;position: absolute; top:400px; left:200px;' id='b_reset1'
+            onclick='mach_reset();valid_operation+=1;'>音爆</button>
+        <text style='display:none;position: absolute; top:450px; left:600px;' id='t_reset1'>这是你的第一次威望重置, 请手动完成,
+            之后音爆将自动进行!
+        </text>
+        <button class='b_reset' style='display:none;position: absolute; top:400px; left:200px;' id='b_reset2'
+            onclick='fall_reset();valid_operation+=1;'>落心</button>
+    </div>
+    <div class='target' id='target'>
+        <progress id='target_bar' value='0' max='1' text='1' onmouseover=''></progress>
+        <text style='position: absolute; top:10px; left:50px;' id='target_text'>
+            <span id='target_texti'>达到音速! (340m/s)</span> [<span id='target_pt'>0</span>%]</text>
+    </div>
+    <!--Automation-->
+    <div class='substance' style='display: none;' id='automation'>
+        <button class='b_substance' style='display:none;position: absolute; top:70px; left:100px;' id='b_au1'
+            onclick='switch_automation(1);valid_operation+=1;'>自动推进器建造已<span id='b_au1_val'>禁</span>用</button>
+        <button class='b_substance' style='display:none;position: absolute; top:70px; left:500px;' id='b_au2'
+            onclick='switch_automation(2);valid_operation+=1;'>自动计数器建造已<span id='b_au2_val'>禁</span>用</button>
+        <button class='b_substance' style='display:none;position: absolute; top:70px; left:900px;' id='b_au3'
+            onclick='switch_automation(3);valid_operation+=1;'>自动涡轮机建造已<span id='b_au3_val'>禁</span>用</button>
+        <button class='b_substance' style='display:none;position: absolute; top:70px; left:1300px;' id='b_au4'
+            onclick='switch_automation(4);valid_operation+=1;'>自动整流罩建造已<span id='b_au4_val'>禁</span>用</button>
+        <button class='b_substance' style='display:none;position: absolute; top:140px; left:100px;' id='b_au6'
+            onclick='switch_automation(6);valid_operation+=1;'>自动恒星引擎建造已<span id='b_au6_val'>禁</span>用</button>
+        <button class='b_substance' style='display:none;position: absolute; top:210px; left:100px;' id='b_au5'
+            onclick='switch_automation(5);valid_operation+=1;'>自动重置已<span id='b_au5_val'>禁</span>用</button>
+        <input class='input' style='display: none; position:absolute; top:210px ;left:450px;' id='b_au5_input'
+            type='number' placeholder='0' min='1' step='0' max='1e308'
+            onchange='valid_operation+=1;this.value=this.value.replace(/\De/g,"");this.value=sci_num(Math.max(1,Math.min(1e308,Math.floor(this.value))),1);automation_5_trigger.to(parseFloat(this.value),0);'>
+        <text style='display: none; position: absolute; top:220px; left:600px;' id='b_au5_inputi'>阈值(马赫点数获取达到这个数字时重置)
+            此方法不能应用于1e308以上
+        </text>
+        <button class='b_substance' style='display:none;position: absolute; top:280px; left:100px;' id='b_au8'
+            onclick='switch_automation(8);valid_operation+=1;'>定时重置已<span id='b_au8_val'>禁</span>用</button>
+        <input class='input' style='display: none; position:absolute; top:280px ;left:450px;' id='b_au8_input'
+            type='number' placeholder='0' min='1' step='0' max='1e308'
+            onchange='valid_operation+=1;this.value=this.value.replace(/\D.e/g,"");this.value=sci_num(Math.max(1,Math.min(1e308,Math.floor(this.value))),1);automation_8_trigger=parseFloat(this.value);'>
+        <text style='display: none; position: absolute; top:290px; left:600px;' id='b_au8_inputi'>定时重置的间隔(秒数)</text>
+        <button class='b_substance' style='display:none;position: absolute; top:420px; left:100px;' id='b_au7'
+            onclick='switch_automation(7);valid_operation+=1;'>自动购买音速升级42已<span id='b_au7_val'>禁</span>用</button>
+        <button class='b_automator' style='display:none;position: absolute; top:0px; left:100px;' id='b_at1'
+            onclick='automator_running=1-automator_running;valid_operation+=1;'>Run</button>
+        <button class='b_automator' style='display:none;position: absolute; top:0px; left:170px;' id='b_at2'
+            onclick='automator_running=0; automator_last=0;valid_operation+=1;'>Stop</button>
+        <button class='b_automator' style='display:none;position: absolute; top:0px; left:240px;' id='b_at3'
+            onclick='automator_loop=1-automator_loop;valid_operation+=1;'>Loop</button>
+        <button class='b_automator' style='display:none;position: absolute; top:0px; left:310px;' id='b_at4'
+            onclick='automator_autostart=1-automator_autostart;valid_operation+=1;'>MAST</button>
+        <textarea class='automator' style='display: none; position:absolute; top:30px ;left:65px;' id='automator_input'
+            onchange='automator_code=this.value;automator_last=0;automator_running=0;valid_operation+=1;'></textarea>
+    </div>
+    <!--Mach-->
+    <div class='mach_substance' style='display: none;' id='mach'>
+        <text style='display: none; position: absolute; top:10px; left:725px;' id='mhptext'>你拥有
+            <span id='mhp_cnt' style='color:#00aa00'>0</span> 个马赫点数</text>
+        <text style='display: none; position: absolute; top:40px; left:150px;' id='mhptexti'>花费马赫点数购买升级,
+            购买第X(X>1)行Y列的升级需先买第(X-1)行Y列的升级, 第4行升级是投资类升级, 效果取决于投入马赫点数.</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:70px; left:100px;' id='b_machup11'
+            onclick='mach_upgrade(1,1)'>基于累积获得的位移给予推进器倍数<br />当前: x<span id='b_machup11_val'>1.00</span><br />
+            <span id='b_machup11_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:70px; left:500px;' id='b_machup12'
+            onclick='mach_upgrade(1,2)'>x5 位移获取倍数<br /><span id='b_machup12_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:70px; left:900px;' id='b_machup13'
+            onclick='mach_upgrade(1,3)'>推进器价格增长底数 -0.03<br />(1.30->1.27)<br /><span id='b_machup13_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:70px; left:1300px;' id='b_machup14'
+            onclick='mach_upgrade(1,4)'>解锁自动推进器建造<br />(个)<br /><span id='b_machup14_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:270px; left:100px;' id='b_machup21'
+            onclick='mach_upgrade(2,1)'>基于本周目累积获得的位移给予推进器倍数<br />当前: x<span id='b_machup21_val'>1.00</span><br /><span
+                id='b_machup21_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:270px; left:500px;' id='b_machup22'
+            onclick='mach_upgrade(2,2)'>计数器倍数 +0.5<br />(2.0->2.5)<br /><span id='b_machup22_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:270px; left:900px;' id='b_machup23'
+            onclick='mach_upgrade(2,3)'>推进器价格增长底数 -0.03<br />(1.27->1.24)<br /><span id='b_machup23_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:270px; left:1300px;' id='b_machup24'
+            onclick='mach_upgrade(2,4)'>解锁自动推进器建造<br />(最大)<br /><span id='b_machup24_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:470px; left:100px;' id='b_machup31'
+            onclick='mach_upgrade(3,1)'>基于成就等级给予推进器倍数<br />当前: x<span id='b_machup31_val'>1.00</span><br /><span
+                id='b_machup31_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:470px; left:500px;' id='b_machup32'
+            onclick='mach_upgrade(3,2)'>涡轮机每次涨价 -1<br />(10->9)<br /><span id='b_machup32_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:470px; left:900px;' id='b_machup33'
+            onclick='mach_upgrade(3,3)'>推进器价格增长底数 -0.03<br />(1.24->1.21)<br /><span id='b_machup33_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:470px; left:1300px;' id='b_machup34'
+            onclick='mach_upgrade(3,4)'>解锁自动计数器建造<br />(最大)<br /><span id='b_machup34_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:670px; left:100px;' id='b_machup41'
+            onclick='mach_upgrade(4,1);valid_operation+=1;'>基于投入的马赫点数给予推进器倍数<br />当前: x<span
+                id='b_machup41_val'>1.00</span><br /><span id='b_machup41_inv'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:670px; left:500px;' id='b_machup42'
+            onclick='mach_upgrade(4,2);valid_operation+=1;'>基于投入的马赫点数给予马赫点数获取倍数<br />当前: x<span
+                id='b_machup42_val'>1.00</span><br /><span id='b_machup42_inv'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:670px; left:900px;' id='b_machup43'
+            onclick='mach_upgrade(4,3);valid_operation+=1;'>基于投入的马赫点数降低推进器价格增长底数<br />当前: -<span
+                id='b_machup43_val'>0.00</span><br /><span id='b_machup43_inv'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:670px; left:1300px;' id='b_machup44'
+            onclick='mach_upgrade(4,4);valid_operation+=1;'>基于投入的马赫点数加快自动建造<br />当前:<span
+                id='b_machup44_val'>1.00</span>s<br /><span id='b_machup44_inv'></span>
+        </button>
+        <input class='input' style='display: none; position:absolute; top:700px ;left:1650px;' id='machup_4_input'
+            type='number' placeholder='50' min='0' step='1' max='100'
+            onchange='this.value=this.value.replace(/\D/g,"");mach_inv_ratio=this.value=Math.max(0,Math.min(100,this.value));'>
+        <text style='display: none; position: absolute; top:780px; left:1650px;' id='machup_4_inputi'>投入比例(%)</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:870px; left:100px;' id='b_machup51'
+            onclick='mach_upgrade(5,1)'>解锁: 限制<br /><span id='b_machup51_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:870px; left:500px;' id='b_machup52'
+            onclick='mach_upgrade(5,2)'>涡轮机每次涨价 -1<br />(9->8)<br /><span id='b_machup52_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:870px; left:900px;' id='b_machup53'
+            onclick='mach_upgrade(5,3)'>计数器价格增长底数 -1<br />(10->9)<br /><span id='b_machup53_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:870px; left:1300px;' id='b_machup54'
+            onclick='mach_upgrade(5,4)'>解锁自动涡轮机建造<br />(个)<br /><span id='b_machup54_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:1070px; left:100px;' id='b_machup61'
+            onclick='mach_upgrade(6,1)'>成就等级 x1.5<br /><span id='b_machup61_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:1070px; left:500px;' id='b_machup62'
+            onclick='mach_upgrade(6,2)'>解锁整流罩<br /><span id='b_machup62_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:1070px; left:900px;' id='b_machup63'
+            onclick='mach_upgrade(6,3)'>计数器价格增长底数 -1<br />(9->8)<br /><span id='b_machup63_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:1070px; left:1300px;' id='b_machup64'
+            onclick='mach_upgrade(6,4)'>解锁自动涡轮机建造(最大)<br />解锁批量购买涡轮机<br /><span id='b_machup64_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:1270px; left:100px;' id='b_machup71'
+            onclick='mach_upgrade(7,1)'>基于最短音爆时间给予推进器倍数<br />当前: x<span id='b_machup71_val'>1.00</span><br /><span
+                id='b_machup71_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:1270px; left:500px;' id='b_machup72'
+            onclick='mach_upgrade(7,2)'>以2个整流罩开局<br /><span id='b_machup72_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:1270px; left:900px;' id='b_machup73'
+            onclick='mach_upgrade(7,3)'>x10 位移获取倍数<br /><span id='b_machup73_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:1270px; left:1300px;' id='b_machup74'
+            onclick='mach_upgrade(7,4)'>解锁自动整流罩建造(个)<br /><span id='b_machup74_cost'></span>
+        </button>
+    </div>
+    <!--Break_Mach-->
+    <div class='mach_substance' style='display: none;' id='break_mach'>
+        <text style='display: none; position: absolute; top:10px; left:725px;' id='break_mhptext'>你拥有 <span
+                id='break_mhp_cnt' style='color:#ff9900'>0</span> 个马赫点数</text>
+        <text style='display: none; position: absolute; top:40px; left:725px;' id='break_bhtext'>你拥有 <span
+                id='break_bh_cnt' style='color:#ff9900'>0</span> 个碎心(E0 x<span id='break_bh_cnti'></span>)</text>
+        <text style='display: none; position: absolute; top:70px; left:250px;' id='break_mhptexti'>突破音障后你的速度可超过音速.
+            之后每超过1倍音速, 空气阻力的第一项次数的平方就 +<span id='e0_mult_val'></span>, 并且使你获得的马赫点数 x<span
+                id='break_mhptexti_mhp_mult'></span>
+        </text>
+        <text style='display: none; position: absolute; top:100px; left:500px;' id='break_mhptextii'>当前空气阻力公式: <span
+                id='break_mhptextii_a'>0.00</span>*V^<span style='color:#ff9900' id='break_mhptextii_e0'>0.00</span>
+            +<span id='break_mhptextii_d'>0.00</span>*V^<span style='color:#00aa00' id='break_mhptextii_e1'>2.00</span>
+            +<span id='break_mhptextii_l'>0.00</span>*V</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:150px; left:725px;' id='b_break_mach'
+            onclick='switch_break_mach()'>突破音障</button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:350px; left:300px;'
+            id='b_break_machup11' onclick='break_mach_upgrade(1,1)'>计数器倍数 +0.5<br />(2.5->3.0)<br /><span
+                id='b_break_machup11_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:350px; left:725px;'
+            id='b_break_machup12' onclick='break_mach_upgrade(1,2)'>空气阻力的第一项(E0)次数 x0.85<br /><span
+                id='b_break_machup12_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:350px; left:1150px;'
+            id='b_break_machup13' onclick='break_mach_upgrade(1,3)'>涡轮机不再重置进度<br /><span
+                id='b_break_machup13_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:550px; left:300px;'
+            id='b_break_machup21' onclick='break_mach_upgrade(2,1)'>计数器价格增长底数 -1<br />(8->7)<br /><span
+                id='b_break_machup21_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:550px; left:725px;'
+            id='b_break_machup22' onclick='break_mach_upgrade(2,2)'>整流罩可降低 E0<br />当前: x<span
+                id='b_break_machup22_val'></span><br /><span id='b_break_machup22_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:550px; left:1150px;'
+            id='b_break_machup23' onclick='break_mach_upgrade(2,3)'>涡轮机每次涨价 -2<br />(8->6)<br /><span
+                id='b_break_machup23_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:750px; left:300px;'
+            id='b_break_machup31' onclick='break_mach_upgrade(3,1)'>成就等级加强碎心<br />当前: x<span
+                id='b_break_machup31_val'></span><br /><span id='b_break_machup31_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:750px; left:725px;'
+            id='b_break_machup32' onclick='break_mach_upgrade(3,2)'>碎心获取数量 ^2<br /><span
+                id='b_break_machup32_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:750px; left:1150px;'
+            id='b_break_machup33' onclick='break_mach_upgrade(3,3)'>涡轮机基础价格降低<br />当前: -<span
+                id='b_break_machup33_val'></span>推进器<br /><span id='b_break_machup33_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:950px; left:300px;'
+            id='b_break_machup41' onclick='break_mach_upgrade(4,1)'>音速升级31效果变为乘算<br /><span
+                id='b_break_machup41_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:950px; left:725px;'
+            id='b_break_machup42' onclick='break_mach_upgrade(4,2)'>碎心底数 -0.003<br />当前: -<span
+                id='b_break_machup42_val'></span><br /><span id='b_break_machup42_cost'></span>
+        </button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:950px; left:1150px;'
+            id='b_break_machup43' onclick='break_mach_upgrade(4,3)'>涡轮机倍数 +0.2<br />当前: +<span
+                id='b_break_machup43_val'></span><br /><span id='b_break_machup43_cost'></span>
+        </button>
+    </div>
+    <!--Stars-->
+    <div class='stars_substance' style='display: none;' id='stars'>
+        <button class='b_stars_reset' style='display:none;position: absolute; top:30px; left:50px;' id='b_stars_reset'
+            ondblclick='stars_reset();valid_operation+=1;'><span
+                style='color: #002099 !important;'>流星雨</span><br />重置之前的一切<br />下个星辰周目将拥有
+            <span id='b_stars_reset_val' style='color: #002099;'>0</span> 星辰点数<br />下个星辰点数在 <span
+                id='b_stars_reset_next' style='color:#00aa00'>1.00e5</span>m/s</button>
+        <text style='display: none; position: absolute; top:40px; left:550px;' id='stars_texti'>速度达到
+            1.00e5m/s后空气阻力会以恐怖的速度增长(^<span id="e0_pow_val"></span>), 建议及时重置 (双击流星雨按键)!</text>
+        <text style='display: none; position: absolute; top:90px; left:550px;' id='stars_textii'>你有 <span
+                id='stars_textii_val' style='color: #002099'>0/0</span> 个星辰点数</text>
+        <button class='b_substance' style='display:none;position: absolute; top:130px; left:793px;' id='b_stars_respec'
+            onclick='switch_respec();valid_operation+=1;'>流星雨后<span id='b_stars_respec_val'>禁</span>用重置星辰链</button>
+        <text style='display: none; position: absolute; top:225px; left:150px;' id='t_starsupi'>缩略图<span
+                style="color:#ffffff">--------------------------------</span>星辰链</text>
+        <div class='trianglelg' style='display:none;position: absolute; top:433px; left:605px;' id='line1a'></div>
+        <div class='trianglelw' style='display:none;position: absolute; top:432px; left:595px;' id='line1b'></div>
+        <div class='trianglelgsm' style='display:none;position: absolute; top:364px; left:105px;' id='line1asm'></div>
+        <div class='trianglelwsm' style='display:none;position: absolute; top:363px; left:100px;' id='line1bsm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:433px; left:955px;' id='line2a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:364px; left:183px;' id='line2asm'></div>
+        <div class='trianglerg' style='display:none;position: absolute; top:433px; left:1005px;' id='line3a'></div>
+        <div class='trianglerw' style='display:none;position: absolute; top:432px; left:1015px;' id='line3b'></div>
+        <div class='trianglergsm' style='display:none;position: absolute; top:364px; left:205px;' id='line3asm'></div>
+        <div class='trianglerwsm' style='display:none;position: absolute; top:363px; left:210px;' id='line3bsm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:658px; left:605px;' id='line4a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:409px; left:103px;' id='line4asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:658px; left:955px;' id='line5a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:409px; left:183px;' id='line5asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:658px; left:1305px;' id='line6a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:409px; left:263px;' id='line6asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:883px; left:605px;' id='line7a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:454px; left:103px;' id='line7asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:883px; left:955px;' id='line8a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:454px; left:183px;' id='line8asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:883px; left:1305px;' id='line9a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:454px; left:263px;' id='line9asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:1108px; left:605px;' id='line10a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:499px; left:103px;' id='line10asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:1108px; left:955px;' id='line11a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:499px; left:183px;' id='line11asm'></div>
+        <div class='trianglelg' style='display:none;position: absolute; top:1108px; left:655px;' id='line12a'></div>
+        <div class='trianglelw' style='display:none;position: absolute; top:1107px; left:645px;' id='line12b'></div>
+        <div class='trianglelgsm' style='display:none;position: absolute; top:499px; left:125px;' id='line12asm'></div>
+        <div class='trianglelwsm' style='display:none;position: absolute; top:498px; left:120px;' id='line12bsm'></div>
+        <div class='trianglelg' style='display:none;position: absolute; top:1108px; left:1005px;' id='line13a'></div>
+        <div class='trianglelw' style='display:none;position: absolute; top:1107px; left:995px;' id='line13b'></div>
+        <div class='trianglelgsm' style='display:none;position: absolute; top:499px; left:205px;' id='line13asm'></div>
+        <div class='trianglelwsm' style='display:none;position: absolute; top:498px; left:200px;' id='line13bsm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:1333px; left:955px;' id='line14a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:544px; left:183px;' id='line14asm'></div>
+        <div class='trianglerg' style='display:none;position: absolute; top:1333px; left:605px;' id='line15a'></div>
+        <div class='trianglerw' style='display:none;position: absolute; top:1332px; left:615px;' id='line15b'></div>
+        <div class='trianglergsm' style='display:none;position: absolute; top:544px; left:105px;' id='line15asm'></div>
+        <div class='trianglerwsm' style='display:none;position: absolute; top:543px; left:110px;' id='line15bsm'></div>
+        <div class='rectfg' style='display:none;position: absolute; top:1470px; left:1108px;' id='line16a'></div>
+        <div class='rectfgsm' style='display:none;position: absolute; top:573px; left:212px;' id='line16asm'></div>
+        <div class='trianglelg' style='display:none;position: absolute; top:1558px; left:605px;' id='line17a'></div>
+        <div class='trianglelw' style='display:none;position: absolute; top:1557px; left:595px;' id='line17b'></div>
+        <div class='trianglelgsm' style='display:none;position: absolute; top:589px; left:105px;' id='line17asm'></div>
+        <div class='trianglelwsm' style='display:none;position: absolute; top:588px; left:100px;' id='line17bsm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:1558px; left:955px;' id='line18a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:589px; left:183px;' id='line18asm'></div>
+        <div class='trianglerg' style='display:none;position: absolute; top:1558px; left:1005px;' id='line19a'></div>
+        <div class='trianglerw' style='display:none;position: absolute; top:1557px; left:1015px;' id='line19b'></div>
+        <div class='trianglergsm' style='display:none;position: absolute; top:589px; left:205px;' id='line19asm'></div>
+        <div class='trianglerwsm' style='display:none;position: absolute; top:588px; left:210px;' id='line19bsm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:1783px; left:605px;' id='line20a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:634px; left:103px;' id='line20asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:1783px; left:955px;' id='line21a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:634px; left:183px;' id='line21asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:1783px; left:1305px;' id='line22a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:634px; left:263px;' id='line22asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2008px; left:605px;' id='line23a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:679px; left:103px;' id='line23asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2008px; left:955px;' id='line24a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:679px; left:183px;' id='line24asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2008px; left:1305px;' id='line25a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:679px; left:263px;' id='line25asm'></div>
+        <div class='trianglerg' style='display:none;position: absolute; top:2233px; left:605px;' id='line26a'></div>
+        <div class='trianglerw' style='display:none;position: absolute; top:2232px; left:615px;' id='line26b'></div>
+        <div class='trianglergsm' style='display:none;position: absolute; top:724px; left:105px;' id='line26asm'></div>
+        <div class='trianglerwsm' style='display:none;position: absolute; top:723px; left:110px;' id='line26bsm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2233px; left:955px;' id='line27a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:724px; left:183px;' id='line27asm'></div>
+        <div class='trianglelg' style='display:none;position: absolute; top:2233px; left:1005px;' id='line28a'></div>
+        <div class='trianglelw' style='display:none;position: absolute; top:2232px; left:995px;' id='line28b'></div>
+        <div class='trianglelgsm' style='display:none;position: absolute; top:724px; left:205px;' id='line28asm'></div>
+        <div class='trianglelwsm' style='display:none;position: absolute; top:723px; left:200px;' id='line28bsm'></div>
+        <div class='trianglelg' style='display:none;position: absolute; top:2458px; left:605px;' id='line29a'></div>
+        <div class='trianglelw' style='display:none;position: absolute; top:2457px; left:595px;' id='line29b'></div>
+        <div class='trianglelgsm' style='display:none;position: absolute; top:769px; left:105px;' id='line29asm'></div>
+        <div class='trianglelwsm' style='display:none;position: absolute; top:768px; left:100px;' id='line29bsm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2458px; left:955px;' id='line30a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:769px; left:183px;' id='line30asm'></div>
+        <div class='trianglerg' style='display:none;position: absolute; top:2458px; left:1005px;' id='line31a'></div>
+        <div class='trianglerw' style='display:none;position: absolute; top:2458px; left:1015px;' id='line31b'></div>
+        <div class='trianglergsm' style='display:none;position: absolute; top:769px; left:205px;' id='line31asm'></div>
+        <div class='trianglerwsm' style='display:none;position: absolute; top:768px; left:210px;' id='line31bsm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2683px; left:605px;' id='line32a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:814px; left:103px;' id='line32asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2683px; left:955px;' id='line33a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:814px; left:183px;' id='line33asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2683px; left:1305px;' id='line34a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:814px; left:263px;' id='line34asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2908px; left:605px;' id='line35a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:859px; left:103px;' id='line35asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2908px; left:955px;' id='line36a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:859px; left:183px;' id='line36asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:2908px; left:1305px;' id='line37a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:859px; left:263px;' id='line37asm'></div>
+        <div class='rectfg' style='display:none;position: absolute; top:3270px; left:1108px;' id='line38a'></div>
+        <div class='rectfgsm' style='display:none;position: absolute; top:933px; left:212px;' id='line38asm'></div>
+        <div class='rectmg' style='display:none;position: absolute; top:3358px; left:955px;' id='line39a'></div>
+        <div class='rectmgsm' style='display:none;position: absolute; top:949px; left:183px;' id='line39asm'></div>
+        <div class='trianglelg' style='display:none;position: absolute; top:3583px; left:605px;' id='line40a'></div>
+        <div class='trianglelw' style='display:none;position: absolute; top:3582px; left:595px;' id='line40b'></div>
+        <div class='trianglelgsm' style='display:none;position: absolute; top:994px; left:105px;' id='line40asm'></div>
+        <div class='trianglelwsm' style='display:none;position: absolute; top:993px; left:100px;' id='line40bsm'></div>
+        <div class='trianglerg' style='display:none;position: absolute; top:3583px; left:1005px;' id='line41a'></div>
+        <div class='trianglerw' style='display:none;position: absolute; top:3582px; left:1015px;' id='line41b'></div>
+        <div class='trianglergsm' style='display:none;position: absolute; top:994px; left:205px;' id='line41asm'></div>
+        <div class='trianglerwsm' style='display:none;position: absolute; top:993px; left:210px;' id='line41bsm'></div>
+        <div class='trianglelg' style='display:none;position: absolute; top:3808px; left:1005px;' id='line42a'></div>
+        <div class='trianglelw' style='display:none;position: absolute; top:3807px; left:995px;' id='line42b'></div>
+        <div class='trianglelgsm' style='display:none;position: absolute; top:1039px; left:205px;' id='line42asm'></div>
+        <div class='trianglelwsm' style='display:none;position: absolute; top:1038px; left:200px;' id='line42bsm'></div>
+        <div class='trianglerg' style='display:none;position: absolute; top:3808px; left:605px;' id='line43a'></div>
+        <div class='trianglerw' style='display:none;position: absolute; top:3807px; left:615px;' id='line43b'></div>
+        <div class='trianglergsm' style='display:none;position: absolute; top:1039px; left:105px;' id='line43asm'></div>
+        <div class='trianglerwsm' style='display:none;position: absolute; top:1038px; left:110px;' id='line43bsm'></div>
+        <text style='display: none; position: absolute; top:225px; left:800px;' id='t_starsup01'>Start (01)</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:250px; left:800px;' id='b_starsup01'
+            onclick='stars_upgrade(1);valid_operation+=1;'>解锁: 恒星引擎<br />1 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:330px; left:150px;'
+            id='b_starsup01sm' onclick='stars_upgrade(1);valid_operation+=1;'>ST</button>
+        <text style='display: none; position: absolute; top:450px; left:450px;' id='t_starsup11'>11</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:475px; left:450px;' id='b_starsup11'
+            onclick='stars_upgrade(2);valid_operation+=1;'>位移获取倍数 ^1.13<br />1 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:375px; left:70px;'
+            id='b_starsup11sm' onclick='stars_upgrade(2);valid_operation+=1;'>11</button>
+        <text style='display: none; position: absolute; top:450px; left:800px;' id='t_starsup12'>12</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:475px; left:800px;' id='b_starsup12'
+            onclick='stars_upgrade(3);valid_operation+=1;'>恒星引擎获得更多涡轮机<br />log10(C)->log5(C)<br />1 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:375px; left:150px;'
+            id='b_starsup12sm' onclick='stars_upgrade(3);valid_operation+=1;'>12</button>
+        <text style='display: none; position: absolute; top:450px; left:1150px;' id='t_starsup13'>13</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:475px; left:1150px;'
+            id='b_starsup13' onclick='stars_upgrade(4);valid_operation+=1;'>推进器价格增长底数 -0.011<br />1 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:375px; left:230px;'
+            id='b_starsup13sm' onclick='stars_upgrade(4);valid_operation+=1;'>13</button>
+        <text style='display: none; position: absolute; top:675px; left:450px;' id='t_starsup21'>21</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:700px; left:450px;' id='b_starsup21'
+            onclick='stars_upgrade(5);valid_operation+=1;'>整流罩可被碎心加强<br />当前: x<span
+                id="b_starsup21_val">1.00</span><br />1 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:420px; left:70px;'
+            id='b_starsup21sm' onclick='stars_upgrade(5);valid_operation+=1;'>21</button>
+        <text style='display: none; position: absolute; top:675px; left:800px;' id='t_starsup22'>22</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:700px; left:800px;' id='b_starsup22'
+            onclick='stars_upgrade(6);valid_operation+=1;'>突破音障42与43升级可购买7次<br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:420px; left:150px;'
+            id='b_starsup22sm' onclick='stars_upgrade(6);valid_operation+=1;'>22</button>
+        <text style='display: none; position: absolute; top:675px; left:1150px;' id='t_starsup23'>23</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:700px; left:1150px;'
+            id='b_starsup23' onclick='stars_upgrade(7);valid_operation+=1;'>推进器价格增长底数随本周目最高速度降低<br />当前: -<span
+                id="b_starsup23_val">0.000</span><br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:420px; left:230px;'
+            id='b_starsup23sm' onclick='stars_upgrade(7);valid_operation+=1;'>23</button>
+        <text style='display: none; position: absolute; top:900px; left:450px;' id='t_starsup31'>31</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:925px; left:450px;' id='b_starsup31'
+            onclick='stars_upgrade(8);valid_operation+=1;'>整流罩价格上涨 -6<br />(40->34)<br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:465px; left:70px;'
+            id='b_starsup31sm' onclick='stars_upgrade(8);valid_operation+=1;'>31</button>
+        <text style='display: none; position: absolute; top:900px; left:800px;' id='t_starsup32'>32</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:925px; left:800px;' id='b_starsup32'
+            onclick='stars_upgrade(9);valid_operation+=1;'>成就等级加强涡轮机<br />当前: +<span
+                id="b_starsup32_val">1.00</span><br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:465px; left:150px;'
+            id='b_starsup32sm' onclick='stars_upgrade(9);valid_operation+=1;'>32</button>
+        <text style='display: none; position: absolute; top:900px; left:1150px;' id='t_starsup33'>33</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:925px; left:1150px;'
+            id='b_starsup33' onclick='stars_upgrade(10);valid_operation+=1;'>每个整流罩使马赫点数获取 x1.5<br />当前: x<span
+                id="b_starsup33_val">1.00</span><br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:465px; left:230px;'
+            id='b_starsup33sm' onclick='stars_upgrade(10);valid_operation+=1;'>33</button>
+        <text style='display: none; position: absolute; top:1125px; left:450px;' id='t_starsup41'>41</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1150px; left:450px;'
+            id='b_starsup41' onclick='stars_upgrade(11);valid_operation+=1;'>马赫点数获取倍数 x1e7<br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:510px; left:70px;'
+            id='b_starsup41sm' onclick='stars_upgrade(11);valid_operation+=1;'>41</button>
+        <text style='display: none; position: absolute; top:1125px; left:800px;' id='t_starsup42'>42</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1150px; left:800px;'
+            id='b_starsup42' onclick='stars_upgrade(12);valid_operation+=1;'>碎心获取倍数 x75<br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:510px; left:150px;'
+            id='b_starsup42sm' onclick='stars_upgrade(12);valid_operation+=1;'>42</button>
+        <text style='display: none; position: absolute; top:1350px; left:800px;' id='t_starsup51'>51</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1375px; left:800px;'
+            id='b_starsup51' onclick='stars_upgrade(13);valid_operation+=1;'>恒星引擎可获得整流罩<br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:555px; left:150px;'
+            id='b_starsup51sm' onclick='stars_upgrade(13);valid_operation+=1;'>51</button>
+        <text style='display: none; position: absolute; top:1350px; left:1150px;' id='t_starsup52'>52</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1375px; left:1150px;'
+            id='b_starsup52' onclick='stars_upgrade(14);valid_operation+=1;'>重置时保留恒星引擎充能对数的50%<br />1 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:555px; left:230px;'
+            id='b_starsup52sm' onclick='stars_upgrade(14);valid_operation+=1;'>52</button>
+        <text style='display: none; position: absolute; top:1575px; left:450px;' id='t_starsup61'>露 61</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1600px; left:450px;'
+            id='b_starsup61' onclick='stars_upgrade(15);valid_operation+=1;'>恒星引擎获得更多涡轮机<br />(log5(C)->log2(C))<br />2
+            星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:600px; left:70px;'
+            id='b_starsup61sm' onclick='stars_upgrade(15);valid_operation+=1;'>61</button>
+        <text style='display: none; position: absolute; top:1575px; left:800px;' id='t_starsup62'>云 62</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1600px; left:800px;'
+            id='b_starsup62' onclick='stars_upgrade(16);valid_operation+=1;'>x4.25 位移获取倍数每10倍周目时间<br />当前: x<span
+                id="b_starsup62_val">1.00</span><br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:600px; left:150px;'
+            id='b_starsup62sm' onclick='stars_upgrade(16);valid_operation+=1;'>62</button>
+        <text style='display: none; position: absolute; top:1575px; left:1150px;' id='t_starsup63'>星 63</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1600px; left:1150px;'
+            id='b_starsup63' onclick='stars_upgrade(17);valid_operation+=1;'>基于马赫点数降低碎心底数<br />当前: -<span
+                id="b_starsup63_val">0.00</span><br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:600px; left:230px;'
+            id='b_starsup63sm' onclick='stars_upgrade(17);valid_operation+=1;'>63</button>
+        <text style='display: none; position: absolute; top:1800px; left:450px;' id='t_starsup71'>71</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1825px; left:450px;'
+            id='b_starsup71' onclick='stars_upgrade(18);valid_operation+=1;'>基于成就等级给予推进器倍数<br />当前: x<span
+                id="b_starsup71_val">1.00</span><br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:645px; left:70px;'
+            id='b_starsup71sm' onclick='stars_upgrade(18);valid_operation+=1;'>71</button>
+        <text style='display: none; position: absolute; top:1800px; left:800px;' id='t_starsup72'>72</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1825px; left:800px;'
+            id='b_starsup72' onclick='stars_upgrade(19);valid_operation+=1;'>基于成就等级给予位移获取倍数<br />当前: x<span
+                id="b_starsup72_val">1.00</span><br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:645px; left:150px;'
+            id='b_starsup72sm' onclick='stars_upgrade(19);valid_operation+=1;'>72</button>
+        <text style='display: none; position: absolute; top:1800px; left:1150px;' id='t_starsup73'>73</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:1825px; left:1150px;'
+            id='b_starsup73' onclick='stars_upgrade(20);valid_operation+=1;'>基于成就等级加强整流罩效果<br />当前: +<span
+                id="b_starsup73_val">0.00</span>%<br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:645px; left:230px;'
+            id='b_starsup73sm' onclick='stars_upgrade(20);valid_operation+=1;'>73</button>
+        <text style='display: none; position: absolute; top:2025px; left:450px;' id='t_starsup81'>81</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2050px; left:450px;'
+            id='b_starsup81' onclick='stars_upgrade(21);valid_operation+=1;'>推进器价格增长底数 -0.013<br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:690px; left:70px;'
+            id='b_starsup81sm' onclick='stars_upgrade(21);valid_operation+=1;'>81</button>
+        <text style='display: none; position: absolute; top:2025px; left:800px;' id='t_starsup82'>82</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2050px; left:800px;'
+            id='b_starsup82' onclick='stars_upgrade(22);valid_operation+=1;'>计数器价格增长底数 -0.35<br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:690px; left:150px;'
+            id='b_starsup82sm' onclick='stars_upgrade(22);valid_operation+=1;'>82</button>
+        <text style='display: none; position: absolute; top:2025px; left:1150px;' id='t_starsup83'>83</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2050px; left:1150px;'
+            id='b_starsup83'
+            onclick='stars_upgrade(23);valid_operation+=1;'>恒星引擎可获得更多整流罩<br />log1e20(C)->log1e16(C)<br />3
+            星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:690px; left:230px;'
+            id='b_starsup83sm' onclick='stars_upgrade(23);valid_operation+=1;'>83</button>
+        <text style='display: none; position: absolute; top:2250px; left:800px;' id='t_starsup91'>91</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2275px; left:800px;'
+            id='b_starsup91' onclick='stars_upgrade(24);valid_operation+=1;'>优化马赫点数获取公式<br />步长: 340->313<br />4
+            星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:735px; left:150px;'
+            id='b_starsup91sm' onclick='stars_upgrade(24);valid_operation+=1;'>91</button>
+        <text style='display: none; position: absolute; top:2475px; left:450px;' id='t_starsup101'>風 101</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2500px; left:450px;'
+            id='b_starsup101' onclick='stars_upgrade(25);valid_operation+=1;'>整流罩不再重置进度<br />碎心获取倍数 x52<br />3
+            星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:780px; left:70px;'
+            id='b_starsup101sm' onclick='stars_upgrade(25);valid_operation+=1;'>101</button>
+        <text style='display: none; position: absolute; top:2475px; left:800px;' id='t_starsup102'>水 102</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2500px; left:800px;'
+            id='b_starsup102' onclick='stars_upgrade(26);valid_operation+=1;'>碎心获取倍数 x136<br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:780px; left:150px;'
+            id='b_starsup102sm' onclick='stars_upgrade(26);valid_operation+=1;'>102</button>
+        <text style='display: none; position: absolute; top:2475px; left:1150px;' id='t_starsup103'>山 103</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2500px; left:1150px;'
+            id='b_starsup103' onclick='stars_upgrade(27);valid_operation+=1;'>x3 碎心获取倍数每10倍周目时间<br />当前: x<span
+                id="b_starsup103_val"></span><br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:780px; left:230px;'
+            id='b_starsup103sm' onclick='stars_upgrade(27);valid_operation+=1;'>103</button>
+        <text style='display: none; position: absolute; top:2700px; left:450px;' id='t_starsup111'>111</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2725px; left:450px;'
+            id='b_starsup111' onclick='stars_upgrade(28);valid_operation+=1;'>恒星引擎充能速度 ^<span
+                id="b_starsup111_val">1.00</span><br />恒星引擎充能上限 ^1.25<br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:825px; left:70px;'
+            id='b_starsup111sm' onclick='stars_upgrade(28);valid_operation+=1;'>111</button>
+        <text style='display: none; position: absolute; top:2700px; left:800px;' id='t_starsup112'>112</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2725px; left:800px;'
+            id='b_starsup112' onclick='stars_upgrade(29);valid_operation+=1;'>恒星引擎充能上限 ^1.3<br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:825px; left:150px;'
+            id='b_starsup112sm' onclick='stars_upgrade(29);valid_operation+=1;'>112</button>
+        <text style='display: none; position: absolute; top:2700px; left:1150px;' id='t_starsup113'>113</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2725px; left:1150px;'
+            id='b_starsup113' onclick='stars_upgrade(30);valid_operation+=1;'>恒星引擎充能速度 ^<span
+                id="b_starsup113_val">0.00</span><br />恒星引擎充能上限 ^1.35<br />3 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:825px; left:230px;'
+            id='b_starsup113sm' onclick='stars_upgrade(30);valid_operation+=1;'>113</button>
+        <text style='display: none; position: absolute; top:2925px; left:450px;' id='t_starsup121'>121</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2950px; left:450px;'
+            id='b_starsup121' onclick='stars_upgrade(31);valid_operation+=1;'>马赫点数获取倍数 x<span
+                id="b_starsup121_val">1.00</span><br />2 星辰点数
+        </button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:870px; left:70px;'
+            id='b_starsup121sm' onclick='stars_upgrade(31);valid_operation+=1;'>121</button>
+        <text style='display: none; position: absolute; top:2925px; left:800px;' id='t_starsup122'>122</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2950px; left:800px;'
+            id='b_starsup122' onclick='stars_upgrade(32);valid_operation+=1;'>马赫点数获取倍数 x1.68e7<br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:870px; left:150px;'
+            id='b_starsup122sm' onclick='stars_upgrade(32);valid_operation+=1;'>122</button>
+        <text style='display: none; position: absolute; top:2925px; left:1150px;' id='t_starsup123'>123</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:2950px; left:1150px;'
+            id='b_starsup123' onclick='stars_upgrade(33);valid_operation+=1;'>马赫点数获取倍数 x<span
+                id="b_starsup123_val">0.00</span><br />2 星辰点数
+        </button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:870px; left:230px;'
+            id='b_starsup123sm' onclick='stars_upgrade(33);valid_operation+=1;'>123</button>
+        <text style='display: none; position: absolute; top:3150px; left:800px;' id='t_starsup131'>虹 131 (连接 91)</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:3175px; left:800px;'
+            id='b_starsup131' onclick='stars_upgrade(34);valid_operation+=1;'>每秒进行一次无任何代价的 "虹" 重置<br />8 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:915px; left:150px;'
+            id='b_starsup131sm' onclick='stars_upgrade(34);valid_operation+=1;'>131</button>
+        <text style='display: none; position: absolute; top:3150px; left:1150px;' id='t_starsup132'>132</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:3175px; left:1150px;'
+            id='b_starsup132' onclick='stars_upgrade(35);valid_operation+=1;'>"虹" 重置速度变为4倍<br />2 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:915px; left:230px;'
+            id='b_starsup132sm' onclick='stars_upgrade(35);valid_operation+=1;'>132</button>
+        <text style='display: none; position: absolute; top:3375px; left:800px;' id='t_starsup141'>141</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:3400px; left:800px;'
+            id='b_starsup141' onclick='stars_upgrade(36);valid_operation+=1;'>基于马赫点数给予推进器倍数<br />当前: x<span
+                id="b_starsup141_val">1.00</span><br />5 星辰点数</button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:960px; left:150px;'
+            id='b_starsup141sm' onclick='stars_upgrade(36);valid_operation+=1;'>141</button>
+        <text style='display: none; position: absolute; top:3600px; left:450px;' id='t_starsup151'>151</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:3625px; left:450px;'
+            id='b_starsup151' onclick='stars_upgrade(37);valid_operation+=1;'>基于马赫点数给予位移获取倍数<br />当前: x<span
+                id="b_starsup151_val">1.00</span><br />7 星辰点数
+        </button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:1005px; left:70px;'
+            id='b_starsup151sm' onclick='stars_upgrade(37);valid_operation+=1;'>151</button>
+        <text style='display: none; position: absolute; top:3600px; left:1150px;' id='t_starsup152'>152</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:3625px; left:1150px;'
+            id='b_starsup152' onclick='stars_upgrade(38);valid_operation+=1;'>基于马赫点数加强整流罩<br />当前: +<span
+                id="b_starsup152_val">0.00</span>%<br />7 星辰点数
+        </button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:1005px; left:230px;'
+            id='b_starsup152sm' onclick='stars_upgrade(38);valid_operation+=1;'>152</button>
+        <text style='display: none; position: absolute; top:3825px; left:800px;' id='t_starsup161'>RT (161)</text>
+        <button class='b_stars_upgrade' style='display:none;position: absolute; top:3850px; left:800px;'
+            id='b_starsup161' onclick='stars_upgrade(39);valid_operation+=1;'>解锁: 相对论<br />需求: 速度达到 3.00e6m/s<br />1
+            星辰点数
+        </button>
+        <button class='b_stars_upgradesm' style='display:none;position: absolute; top:1050px; left:150px;'
+            id='b_starsup161sm' onclick='stars_upgrade(39);valid_operation+=1;'>RT</button>
+    </div>
+    <!--Relative-->
+    <div class='substance' style='display: none;' id='relative' onclick='display_booster(0)'>
+        <button class='b_matrix_reset' style='display:none;position: absolute; top:80px; left:50px;' id='b_matrix_reset'
+            ondblclick='matrix_reset()'><span style='color: #004000 !important;'>矩阵覆写</span><br />抹去物质层面的一切,
+            达到新的维度<br />维度等级:
+            <span id='b_matrix_reset_val' style='color: #004000;'>1</span><br />下个维度等级在 <span id='b_matrix_reset_next'
+                style='color:#00aa00'>3.00e6</span>m/s<br />你还可以获得:
+            <span id='b_matrix_reset_val2' style='color: #ff00dd;'>0</span>s 膨胀时间</button>
+        <div class='booster' style='display:none;position: absolute; top:50px; left:1000px;' id='boosters1'
+            onclick='event.stopPropagation(); select_booster(1)'><img id='icon31'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:50px; left:1200px;' id='boosters2'
+            onclick='event.stopPropagation(); select_booster(2)'><img id='icon32'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:50px; left:1400px;' id='boosters3'
+            onclick='event.stopPropagation(); select_booster(3)'><img id='icon33'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:50px; left:1600px;' id='boosters0'
+            onclick='event.stopPropagation(); select_booster(0)'></div>
+        <text style='display: none; position: absolute; top:150px; left:1000px;' id='boostersintro'><span
+                id='boostersintro0'>选择一个黑洞作为矩阵覆写的奖励
+                (也可以不选)</span><br /><span id='boostersintro1'></span><br />瑕疵: <span id='boostersintro2'></span>
+            <br />效果: <span id='boostersintro3'></span><br />耗能: <span id='boostersintro4'></span>J/s
+            <br />储能: <span id='boostersintro5'></span>J
+        </text>
+        <button class='b_blackhole' style='display:none;position: absolute; top:0px; left:1200px;' id='b_blackhole'
+            onclick='switch_blackhole()'><strong style='color: #ffffff' id='t_blackhole'></strong><br /><span
+                style='color: #000000' id='t_blackhole2'></span></button>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:200px;' id='booster1'
+            onclick='event.stopPropagation(); display_booster(1)'><img id='icon1'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:280px;' id='booster2'
+            onclick='event.stopPropagation(); display_booster(2)'><img id='icon2'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:360px;' id='booster3'
+            onclick='event.stopPropagation(); display_booster(3)'><img id='icon3'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:440px;' id='booster4'
+            onclick='event.stopPropagation(); display_booster(4)'><img id='icon4'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:520px;' id='booster5'
+            onclick='event.stopPropagation(); display_booster(5)'><img id='icon5'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:600px;' id='booster6'
+            onclick='event.stopPropagation(); display_booster(6)'><img id='icon6'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:680px;' id='booster7'
+            onclick='event.stopPropagation(); display_booster(7)'><img id='icon7'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:760px;' id='booster8'
+            onclick='event.stopPropagation(); display_booster(8)'><img id='icon8'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:840px;' id='booster9'
+            onclick='event.stopPropagation(); display_booster(9)'><img id='icon9'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:20px; left:920px;' id='booster10'
+            onclick='event.stopPropagation(); display_booster(10)'><img id='icon10'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:200px;' id='booster11'
+            onclick='event.stopPropagation(); display_booster(11)'><img id='icon11'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:280px;' id='booster12'
+            onclick='event.stopPropagation(); display_booster(12)'><img id='icon12'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:360px;' id='booster13'
+            onclick='event.stopPropagation(); display_booster(13)'><img id='icon13'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:440px;' id='booster14'
+            onclick='event.stopPropagation(); display_booster(14)'><img id='icon14'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:520px;' id='booster15'
+            onclick='event.stopPropagation(); display_booster(15)'><img id='icon15'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:600px;' id='booster16'
+            onclick='event.stopPropagation(); display_booster(16)'><img id='icon16'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:680px;' id='booster17'
+            onclick='event.stopPropagation(); display_booster(17)'><img id='icon17'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:760px;' id='booster18'
+            onclick='event.stopPropagation(); display_booster(18)'><img id='icon18'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:840px;' id='booster19'
+            onclick='event.stopPropagation(); display_booster(19)'><img id='icon19'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:100px; left:920px;' id='booster20'
+            onclick='event.stopPropagation(); display_booster(20)'><img id='icon20'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:200px;' id='booster21'
+            onclick='event.stopPropagation(); display_booster(21)'><img id='icon21'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:280px;' id='booster22'
+            onclick='event.stopPropagation(); display_booster(22)'><img id='icon22'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:360px;' id='booster23'
+            onclick='event.stopPropagation(); display_booster(23)'><img id='icon23'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:440px;' id='booster24'
+            onclick='event.stopPropagation(); display_booster(24)'><img id='icon24'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:520px;' id='booster25'
+            onclick='event.stopPropagation(); display_booster(25)'><img id='icon25'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:600px;' id='booster26'
+            onclick='event.stopPropagation(); display_booster(26)'><img id='icon26'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:680px;' id='booster27'
+            onclick='event.stopPropagation(); display_booster(27)'><img id='icon27'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:760px;' id='booster28'
+            onclick='event.stopPropagation(); display_booster(28)'><img id='icon28'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:840px;' id='booster29'
+            onclick='event.stopPropagation(); display_booster(29)'><img id='icon29'></img></div>
+        <div class='booster' style='display:none;position: absolute; top:180px; left:920px;' id='booster30'
+            onclick='event.stopPropagation(); display_booster(30)'><img id='icon30'></img></div>
+        <button class='b_substance' style='display:none;position: absolute; top:260px; left:200px;' id='b_swap'
+            onclick='swap_mode=1-swap_mode;'>
+            交换黑洞模式: <span id='b_swap_val'>禁</span>用</button>
+        <button class='b_substance' style='display:none;position: absolute; top:260px; left:600px;' id='b_remove'
+            onclick='remove_booster();'>
+            删除黑洞 (<span id='b_remove_val'></span>)</button>
+        <text style='display: none; position: absolute; top:330px; left:200px;' id='boosterintro'><span
+                id='boosterintro1'></span><br />等级: <span id='boosterintro2'></span><br />瑕疵: <span
+                id='boosterintro3'></span>
+            <br />效果: <span id='boosterintro4'></span><br />耗能: <span id='boosterintro5'></span>J/s
+            <br />储能: <span id='boosterintro6'></span>J
+        </text>
+        <text style='display: none; position: absolute; top:330px; left:1000px;' id='boosterenergy'><span
+                id='boosterenergy1'></span>J / <span id='boosterenergy2'></span>J
+        </text>
+        <button class='b_mach_upgrade' style='position: absolute; top: 0px; left: 725px;' id='b_dilation_upgrade'
+            onclick='dilation_upgrade()'>提升收敛等级<br />每个收敛等级提供 xE 时间速率<br /><span style='color: #ff00dd;'
+                id='b_dilation_upgrade_val'>0.01</span>s 膨胀时间</button>
+        <text style='display: none; position: absolute; top:200px; left:100px;' id='t_relativeup11'>双子</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:225px; left:100px;'
+            id='b_relativeup11' onclick='relative_upgrade(1,1)'>x2 黑洞储能<span id='b_relativeup11_req'><br />需求: 成就等级达到
+                170</span><br /><span id='b_relativeup11_cost'></span></button>
+        <text style='display: none; position: absolute; top:200px; left:500px;' id='t_relativeup12'>曲率</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:225px; left:500px;'
+            id='b_relativeup12' onclick='relative_upgrade(1,2)'>恒星引擎可被时间速率影响<br />当前: ^<span
+                id='b_relativeup12_val'></span><span id='b_relativeup12_req'><br />需求:
+                恒星充能达到1e180</span><br /><span id='b_relativeup12_cost'></span></button>
+        <text style='display: none; position: absolute; top:200px; left:900px;' id='t_relativeup13'>天工</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:225px; left:900px;'
+            id='b_relativeup13' onclick='relative_upgrade(1,3)'>优化黑洞瑕疵公式<span id='b_relativeup13_req'><br />需求:
+                拥有10个黑洞</span><br /><span id='b_relativeup13_cost'></span></button>
+        <text style='display: none; position: absolute; top:200px; left:1300px;' id='t_relativeup14'>溪流</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:225px; left:1300px;'
+            id='b_relativeup14' onclick='relative_upgrade(1,4)'>解锁高级自动化与自动突破音障<br />周目开始时就解锁星辰前升级<span
+                id='b_relativeup14_req'><br />需求:
+                在黑洞视界内达到 2.00e3m/s</span><br /><span id='b_relativeup14_cost'></span></button>
+        <text style='display: none; position: absolute; top:450px; left:100px;' id='t_relativeup21'>超越</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:475px; left:100px;'
+            id='b_relativeup21' onclick='relative_upgrade(2,1)'>所有星辰分支都可以选择2条<span id='b_relativeup21_req'><br />需求: 拥有
+                60 星辰点数</span><br /><span id='b_relativeup21_cost'></span></button>
+        <text style='display: none; position: absolute; top:450px; left:500px;' id='t_relativeup22'>赞歌</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:475px; left:500px;'
+            id='b_relativeup22' onclick='relative_upgrade(2,2)'>充能可超过上限, 但速率会逐渐降低<br />当前: ^<span
+                id='b_relativeup22_val'></span><span id='b_relativeup22_req'><br />需求:
+                重置后180ms内恒星充能达到 x1.80e308</span><br /><span id='b_relativeup22_cost'></span></button>
+        <text style='display: none; position: absolute; top:450px; left:900px;' id='t_relativeup23'>寂静</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:475px; left:900px;'
+            id='b_relativeup23' onclick='relative_upgrade(2,3)'>本矩阵周目有效操作越少, 黑洞瑕疵越小<br />当前: -<span
+                id='b_relativeup23_val'></span>%<span id='b_relativeup23_req'><br />需求:
+                拥有1个 13%瑕疵以下的非基础黑洞</span><br /><span id='b_relativeup23_cost'></span></button>
+        <text style='display: none; position: absolute; top:450px; left:1300px;' id='t_relativeup24'>超频</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:475px; left:1300px;'
+            id='b_relativeup24' onclick='relative_upgrade(2,4)'>黑洞运行速率 x2<span id='b_relativeup24_req'><br />需求:
+                拥有1个 2级以上的黑洞</span><br /><span id='b_relativeup24_cost'></span></button>
+        <text style='display: none; position: absolute; top:700px; left:100px;' id='t_relativeup31'>飞升</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:725px; left:100px;'
+            id='b_relativeup31' onclick='relative_upgrade(3,1)'>基于星辰点数提升膨胀时间产量<br />当前: x<span
+                id='b_relativeup31_val'></span><span id='b_relativeup31_req'><br />需求: 在星辰链为空时达到
+                3.00e6m/s</span><br /><span id='b_relativeup31_cost'></span></button>
+        <text style='display: none; position: absolute; top:700px; left:500px;' id='t_relativeup32'>彩霞</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:725px; left:500px;'
+            id='b_relativeup32' onclick='relative_upgrade(3,2)'>"虹"重置速度受时间速率影响<br />当前: x<span
+                id='b_relativeup32_val'></span><span id='b_relativeup32_req'><br />需求:
+                时间速率达到 1e80</span><br /><span id='b_relativeup32_cost'></span></button>
+        <text style='display: none; position: absolute; top:700px; left:900px;' id='t_relativeup33'>星晴</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:725px; left:900px;'
+            id='b_relativeup33' onclick='relative_upgrade(3,3)'>黑洞不再被随机打乱<br />你可以调整黑洞顺序<span
+                id='b_relativeup33_req'><br />需求:
+                黑洞能量>95% 且视界内速度达到 3.00e4m/s</span><br /><span id='b_relativeup33_cost'></span></button>
+        <text style='display: none; position: absolute; top:700px; left:1300px;' id='t_relativeup34'>回响</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:725px; left:1300px;'
+            id='b_relativeup34' onclick='relative_upgrade(3,4)'>基于命运提升黑洞运行速率<br />当前: x<span
+                id='b_relativeup34_val'></span><span id='b_relativeup34_req'><br />需求:
+                拥有1个 9级黑洞</span><br /><span id='b_relativeup34_cost'></span></button>
+        <text style='display: none; position: absolute; top:950px; left:100px;' id='t_relativeup41'></text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:975px; left:100px;'
+            id='b_relativeup41'><span id='b_relativeup41_req'></span><br /><span
+                id='b_relativeup41_cost'></span></button>
+        <text style='display: none; position: absolute; top:950px; left:500px;' id='t_relativeup42'>月桂叶</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:975px; left:500px;'
+            id='b_relativeup42' onclick='relative_upgrade(4,2)'>削弱赞歌的生产惩罚<br />x0.1->x0.13 每上限倍<span
+                id='b_relativeup42_req'></span><br /><span id='b_relativeup42_cost'></span></button>
+        <text style='display: none; position: absolute; top:950px; left:900px;' id='t_relativeup43'>生命树</text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:975px; left:900px;'
+            id='b_relativeup43' onclick='relative_upgrade(4,3)'>基于膨胀时间生产星辰点数<br />当前: +<span
+                id='b_relativeup43_val'></span>/s<span id='b_relativeup43_req'></span><br /><span
+                id='b_relativeup43_cost'></span></button>
+        <text style='display: none; position: absolute; top:950px; left:1300px;' id='t_relativeup44'></text>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:975px; left:1300px;'
+            id='b_relativeup44'><span id='b_relativeup44_req'></span><br /><span
+                id='b_relativeup44_cost'></span></button>
+        <button class='b_dream' style='display:none;position: absolute; top:0px; left:100px;' id='b_dream'
+            ondblclick='matrix_reset(); dream_mode=1-dream_mode;'><span id='b_dream_val'>進入</span>鏡花緣</button>
+        <button class='b_dream' style='display:none;position: absolute; top:0px; left:500px;' id='b_dream_complete'
+            onclick='matrix_reset(); dream_mode=0; dream_completed=1; document.getElementById("b_dream_complete").style.display="none";'>隨風去</button>
+        <text style='display: none; position: absolute; top:200px; left:100px;' id='t_dream'>光速近在咫尺<br /><span
+                id='t_dreami'>完成她的考验就可以解脱</span><span id='dots'>. . . . . . </span><br /><br />你的目标是: 达到
+            1314520m/s<br /><br />1.严重削弱时间速率<br />2.现实光速降至 <span id='b_dream_val2'>1314575.00</span>m/s,
+            碎心可以少量提升光速<br />3.黑洞运行速率初始为1,
+            随现实最快速度提升<br />4.所有基础数值
+            ^<span id='b_dream_val3'>0.53</span>, 提升视界光速来减轻惩罚<br />5.严重削弱碎心降低 E0 的能力<br />6.生命树失效</text>
+    </div>
+    <!--Challenges-->
+    <div class='substance' style='display: none;' id='challenges'>
+        <text style='display: none; position: absolute; top:40px; left:550px;' id='retexti'>限制: 完成成就时,
+            获得的该成就等级取决于限制激活数(1+限制)
+        </text>
+        <text style='display: none; position: absolute; top:110px; left:100px;' id='b_re1i'>1.急躁: 推进器价格增长底数 ^2.5
+        </text>
+        <button class='b_substance' style='display:none;position: absolute; top:100px; left:1000px;' id='b_re1'
+            onclick='switch_restriction(1);valid_operation+=1;'>
+            <span id='b_re1_val'>禁</span>用</button>
+        <text style='display: none; position: absolute; top:175px; left:100px;' id='b_re2i'>2.彷徨: 位移获取倍数 ^0.63
+        </text>
+        <button class='b_substance' style='display:none;position: absolute; top:164px; left:1000px;' id='b_re2'
+            onclick='switch_restriction(2);valid_operation+=1;'>
+            <span id='b_re2_val'>禁</span>用</button>
+        <text style='display: none; position: absolute; top:240px; left:100px;' id='b_re3i'>3.怯懦: 推进器推力 ^0.30</text>
+        <button class='b_substance' style='display:none;position: absolute; top:228px; left:1000px;' id='b_re3'
+            onclick='switch_restriction(3);valid_operation+=1;'>
+            <span id='b_re3_val'>禁</span>用</button>
+        <text style='display: none; position: absolute; top:305px; left:100px;' id='b_re4i'>4.傲慢: 禁止购买涡轮机</text>
+        <button class='b_substance' style='display:none;position: absolute; top:292px; left:1000px;' id='b_re4'
+            onclick='switch_restriction(4);valid_operation+=1;'>
+            <span id='b_re4_val'>禁</span>用</button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:135px; left:1400px;' id='b_re_act'
+            onclick='activate_restriction(current_challenge>=6);valid_operation+=1;'>软重置并激活
+            <span id='b_re_act_val'>0</span> 个限制</button>
+        <text style='display: none; position: absolute; top:40px; left:350px;' id='chtexti'>挑战: 开启挑战会增加额外的负面规则,
+            达到需求速度来完成挑战, 挑战等级与奖励取决于限制启用数量</text>
+        <text style='display: none; position: absolute; top:110px; left:100px;' id='b_ch1i'></text>
+        <text style='display: none; position: absolute; top:160px; left:200px;' id='b_ch1ir'>奖励: +[
+            <span id='b_ch1ir_val1'></span>,
+            <span id='b_ch1ir_val2'></span>,
+            <span id='b_ch1ir_val3'></span>,
+            <span id='b_ch1ir_val4'></span>,
+            <span id='b_ch1ir_val5'></span> ] %免费涡轮机(不涨价)</text>
+        <button class='b_substance' style='display:none;position: absolute; top:100px; left:1000px;' id='b_ch1'
+            onclick='switch_challenges(1);valid_operation+=1;'>软重置并开始(等级:
+            <span id='b_ch1_val'></span>)</button>
+        <text style='display: none; position: absolute; top:210px; left:100px;' id='b_ch2i'></text>
+        <text style='display: none; position: absolute; top:260px; left:200px;' id='b_ch2ir'>奖励: +[
+            <span id='b_ch2ir_val1'></span>,
+            <span id='b_ch2ir_val2'></span>,
+            <span id='b_ch2ir_val3'></span>,
+            <span id='b_ch2ir_val4'></span>,
+            <span id='b_ch2ir_val5'></span> ] 涡轮机倍数</text>
+        <button class='b_substance' style='display:none;position: absolute; top:200px; left:1000px;' id='b_ch2'
+            onclick='switch_challenges(2);valid_operation+=1;'>软重置并开始(等级:
+            <span id='b_ch2_val'></span>)</button>
+        <text style='display: none; position: absolute; top:310px; left:100px;' id='b_ch3i'></text>
+        <text style='display: none; position: absolute; top:360px; left:200px;' id='b_ch3ir'>奖励: +[
+            <span id='b_ch3ir_val1'></span>,
+            <span id='b_ch3ir_val2'></span>,
+            <span id='b_ch3ir_val3'></span>,
+            <span id='b_ch3ir_val4'></span>,
+            <span id='b_ch3ir_val5'></span> ] %碎心效果</text>
+        <button class='b_substance' style='display:none;position: absolute; top:300px; left:1000px;' id='b_ch3'
+            onclick='switch_challenges(3);valid_operation+=1;'>软重置并开始(等级:
+            <span id='b_ch3_val'></span>)</button>
+        <text style='display: none; position: absolute; top:410px; left:100px;' id='b_ch4i'></text>
+        <text style='display: none; position: absolute; top:460px; left:200px;' id='b_ch4ir'>奖励: +[
+            <span id='b_ch4ir_val1'></span>,
+            <span id='b_ch4ir_val2'></span>,
+            <span id='b_ch4ir_val3'></span>,
+            <span id='b_ch4ir_val4'></span>,
+            <span id='b_ch4ir_val5'></span> ] %整流罩效果</text>
+        <button class='b_substance' style='display:none;position: absolute; top:400px; left:1000px;' id='b_ch4'
+            onclick='switch_challenges(4);valid_operation+=1;'>软重置并开始(等级:
+            <span id='b_ch4_val'></span>)</button>
+        <text style='display: none; position: absolute; top:510px; left:100px;' id='b_ch5i'></text>
+        <text style='display: none; position: absolute; top:560px; left:200px;' id='b_ch5ir'>奖励: x[
+            <span id='b_ch5ir_val1'></span>,
+            <span id='b_ch5ir_val2'></span>,
+            <span id='b_ch5ir_val3'></span>,
+            <span id='b_ch5ir_val4'></span>,
+            <span id='b_ch5ir_val5'></span> ] 位移获取倍数每10倍周目时间</text>
+        <button class='b_substance' style='display:none;position: absolute; top:500px; left:1000px;' id='b_ch5'
+            onclick='switch_challenges(5);valid_operation+=1;'>软重置并开始(等级:
+            <span id='b_ch5_val'></span>)</button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:235px; left:1400px;' id='b_exit_ch'
+            onclick='switch_challenges(0);valid_operation+=1;'>软重置并退出挑战</button>
+        <text style='display: none; position: absolute; top:40px; left:350px;' id='schtexti'>星辰挑战: 持续整个星辰周目的负面效果,
+            达到需求速度来完成挑战, 挑战等级与奖励取决于限制启用数量</text>
+        <text style='display: none; position: absolute; top:110px; left:100px;' id='b_sch1i'></text>
+        <text style='display: none; position: absolute; top:160px; left:200px;' id='b_sch1ir'>奖励: [
+            <span id='b_sch1ir_val1'>流星雨后保留挑战记录</span>,
+            <span id='b_sch1ir_val2'>以1e20马赫点数开局</span>,
+            <span id='b_sch1ir_val3'>第4行音速升级保留1e20</span>,
+            <span id='b_sch1ir_val4'>自动购买音速升级42</span>,
+            <span id='b_sch1ir_val5'>解锁定时自动重置</span> ]</text>
+        <button class='b_substance' style='display:none;position: absolute; top:100px; left:1000px;' id='b_sch1'
+            onclick='switch_challenges(6);valid_operation+=1;'>5 星辰点数(等级:
+            <span id='b_sch1_val'></span>)</button>
+        <text style='display: none; position: absolute; top:210px; left:100px;' id='b_sch2i'></text>
+        <text style='display: none; position: absolute; top:260px; left:200px;' id='b_sch2ir'>奖励: -[
+            <span id='b_sch2ir_val1'></span>,
+            <span id='b_sch2ir_val2'></span>,
+            <span id='b_sch2ir_val3'></span>,
+            <span id='b_sch2ir_val4'></span>,
+            <span id='b_sch2ir_val5'></span> ] 计数器价格增长底数</text>
+        <button class='b_substance' style='display:none;position: absolute; top:200px; left:1000px;' id='b_sch2'
+            onclick='switch_challenges(7);valid_operation+=1;'>6 星辰点数(等级:
+            <span id='b_sch2_val'></span>)</button>
+        <text style='display: none; position: absolute; top:310px; left:100px;' id='b_sch3i'></text>
+        <text style='display: none; position: absolute; top:360px; left:200px;' id='b_sch3ir'>奖励: +[
+            <span id='b_sch3ir_val1'></span>,
+            <span id='b_sch3ir_val2'></span>,
+            <span id='b_sch3ir_val3'></span>,
+            <span id='b_sch3ir_val4'></span>,
+            <span id='b_sch3ir_val5'></span> ] 空气阻力次数上升惩罚延迟</text>
+        <button class='b_substance' style='display:none;position: absolute; top:300px; left:1000px;' id='b_sch3'
+            onclick='switch_challenges(8);valid_operation+=1;'>11 星辰点数(等级:
+            <span id='b_sch3_val'></span>)</button>
+        <text style='display: none; position: absolute; top:410px; left:100px;' id='b_sch4i'></text>
+        <text style='display: none; position: absolute; top:460px; left:200px;' id='b_sch4ir'>奖励: 基于累积获得的位移获得星辰点数, 每
+            x[
+            <span id='b_sch4ir_val1'></span>,
+            <span id='b_sch4ir_val2'></span>,
+            <span id='b_sch4ir_val3'></span>,
+            <span id='b_sch4ir_val4'></span>,
+            <span id='b_sch4ir_val5'></span> ] 倍位移就获得1星辰点数</text>
+        <button class='b_substance' style='display:none;position: absolute; top:400px; left:1000px;' id='b_sch4'
+            onclick='switch_challenges(9);valid_operation+=1;'>13 星辰点数(等级:
+            <span id='b_sch4_val'></span>)</button>
+        <text style='display: none; position: absolute; top:510px; left:100px;' id='b_sch5i'></text>
+        <text style='display: none; position: absolute; top:560px; left:200px;' id='b_sch5ir'>奖励: -[
+            <span id='b_sch5ir_val1'></span>,
+            <span id='b_sch5ir_val2'></span>,
+            <span id='b_sch5ir_val3'></span>,
+            <span id='b_sch5ir_val4'></span>,
+            <span id='b_sch5ir_val5'></span> ] 1.00e6m/s后空气阻力次数上升惩罚</text>
+        <button class='b_substance' style='display:none;position: absolute; top:500px; left:1000px;' id='b_sch5'
+            onclick='switch_challenges(10);valid_operation+=1;'>7 星辰点数(等级:
+            <span id='b_sch5_val'></span>)</button>
+        <button class='b_mach_upgrade' style='display:none;position: absolute; top:235px; left:1400px;' id='b_exit_sch'
+            onclick='stars_reset();valid_operation+=1;'>软重置并退出挑战</button>
+    </div>
+    <!--Statistics-->
+    <div class='mach_substance' style='display: none;' id='statistics'>
+        <text style='display:none;position: absolute; top:10px; left:600px;' id='st1'>你达到的最快速度为
+            <span id='st1_val' style='color: #00aa00'>0</span>
+            m/s</text>
+        <text style='display:none;position: absolute; top:100px; left:600px;' id='st2'>你总共获得了
+            <span id='st2_val' style='color: #0033cc'>0</span>
+            m位移</text>
+        <text style='display:none;position: absolute; top:250px; left:600px;' id='st3'>你本次重置已用时
+            <span id='st3_val' style='color: #ff00ea'>0 小时 0 分 0 秒 0 毫秒</span>
+        </text>
+        <text style='display:none;position: absolute; top:340px; left:600px;' id='st4'>你本次重置达到的最快速度为
+            <span id='st4_val' style='color: #00aa00'>0</span>
+            m/s</text>
+        <text style='display:none;position: absolute; top:430px; left:600px;' id='st5'>你本次重置总共获得了
+            <span id='st5_val' style='color: #0033cc'>0</span>
+            m位移</text>
+        <text style='display:none;position: absolute; top:520px; left:600px;' id='st6'>你累计进行了
+            <span id='st6_val'>0</span>
+            次音爆</text>
+        <text style='display:none;position: absolute; top:610px; left:600px;' id='st7'>你音爆的最短用时为
+            <span id='st7_val' style='color: #ff00ea'>0 小时 0 分 0 秒 0 毫秒</span>
+        </text>
+        <text style='display:none;position: absolute; top:700px; left:600px;' id='st8'>你累计进行了
+            <span id='st8_val'>0</span>
+            次落心</text>
+        <text style='display:none;position: absolute; top:790px; left:600px;' id='st9'>你落心的最短用时为
+            <span id='st9_val' style='color: #ff00ea'>0 小时 0 分 0 秒 0 毫秒</span>
+        </text>
+        <text style='display:none;position: absolute; top:880px; left:600px;' id='st10'>你本次星辰周目已用时
+            <span id='st10_val' style='color: #ff00ea'>0 小时 0 分 0 秒 0 毫秒</span>
+        </text>
+        <text style='display:none;position: absolute; top:970px; left:600px;' id='st11'>你本次矩阵周目已用时
+            <span id='st11_val' style='color: #ff00ea'>0 小时 0 分 0 秒 0 毫秒</span>
+        </text>
+    </div>
+    <!--Achievements-->
+    <div class='stars_substance' style='display: none;' id='achievements'>
+        <text style='display:none;position: absolute; top:10px; left:600px;' id='ac'>你拥有
+            <span style='color: #ffaa00' id='ac_cnt'>0</span> 个成就
+            <span style='display: none;' id='ac_lvl'>, 总成就等级为:
+                <span style='color:#ffaa00' id='ac_lvl_val'>0</span>
+            </span>
+        </text>
+        <text style='display:none;position: absolute; top:80px; left:0px;' id='ac1'></text>
+        <text style='display:none;position: absolute; top:80px; left:600px;' id='ac1i'>购买一个推进器</text>
+        <text style='display:none;position: absolute; top:150px; left:0px;' id='ac2'></text>
+        <text style='display:none;position: absolute; top:150px; left:600px;' id='ac2i'>速度达到 100m/s</text>
+        <text style='display:none;position: absolute; top:220px; left:0px;' id='ac3'></text>
+        <text style='display:none;position: absolute; top:220px; left:600px;' id='ac3i'>拥有一个涡轮机</text>
+        <text style='display:none;position: absolute; top:290px; left:0px;' id='ac4'></text>
+        <text style='display:none;position: absolute; top:290px; left:600px;' id='ac4i'>达到音速!</text>
+        <text style='display:none;position: absolute; top:360px; left:0px;' id='ac5'></text>
+        <text style='display:none;position: absolute; top:360px; left:600px;' id='ac5i'>1小时内达到音速</text>
+        <text style='display:none;position: absolute; top:430px; left:0px;' id='ac6'></text>
+        <text style='display:none;position: absolute; top:430px; left:600px;' id='ac6i'>1分钟内达到音速</text>
+        <text style='display:none;position: absolute; top:500px; left:0px;' id='ac7'></text>
+        <text style='display:none;position: absolute; top:500px; left:600px;' id='ac7i'>当前拥有 1.08e9 位移</text>
+        <text style='display:none;position: absolute; top:570px; left:0px;' id='ac8'></text>
+        <text style='display:none;position: absolute; top:570px; left:600px;' id='ac8i'>速度达到 1.00e3m/s</text>
+        <text style='display:none;position: absolute; top:640px; left:0px;' id='ac9'></text>
+        <text style='display:none;position: absolute; top:640px; left:600px;' id='ac9i'>完成挑战1</text>
+        <text style='display:none;position: absolute; top:710px; left:0px;' id='ac10'></text>
+        <text style='display:none;position: absolute; top:710px; left:600px;' id='ac10i'>完成挑战2</text>
+        <text style='display:none;position: absolute; top:780px; left:0px;' id='ac11'></text>
+        <text style='display:none;position: absolute; top:780px; left:600px;' id='ac11i'>完成挑战3</text>
+        <text style='display:none;position: absolute; top:850px; left:0px;' id='ac12'></text>
+        <text style='display:none;position: absolute; top:850px; left:600px;' id='ac12i'>完成挑战4</text>
+        <text style='display:none;position: absolute; top:920px; left:0px;' id='ac13'></text>
+        <text style='display:none;position: absolute; top:920px; left:600px;' id='ac13i'>完成挑战5</text>
+        <text style='display:none;position: absolute; top:990px; left:0px;' id='ac14'></text>
+        <text style='display:none;position: absolute; top:990px; left:600px;' id='ac14i'>速度达到 7.92e3m/s (奖励: 马赫点数获取
+            x100)
+        </text>
+        <text style='display:none;position: absolute; top:1060px; left:0px;' id='ac15'></text>
+        <text style='display:none;position: absolute; top:1060px; left:600px;' id='ac15i'>520ms 内达到初心速度</text>
+        <text style='display:none;position: absolute; top:1130px; left:0px;' id='ac16'></text>
+        <text style='display:none;position: absolute; top:1130px; left:600px;' id='ac16i'>1次重置获得 1.00e30 马赫点数</text>
+        <text style='display:none;position: absolute; top:1200px; left:0px;' id='ac17'></text>
+        <text style='display:none;position: absolute; top:1200px; left:600px;' id='ac17i'>速度达到 1.00e5m/s</text>
+        <text style='display:none;position: absolute; top:1270px; left:0px;' id='ac18'></text>
+        <text style='display:none;position: absolute; top:1270px; left:600px;' id='ac18i'>拥有 5 个星辰点数 (奖励: 流星雨保留音速升级,
+            第4行保留1e10)</text>
+        <text style='display:none;position: absolute; top:1340px; left:0px;' id='ac19'></text>
+        <text style='display:none;position: absolute; top:1340px; left:600px;' id='ac19i'>拥有 10 个星辰点数 (奖励:
+            流星雨保留突破音障升级)</text>
+        <text style='display:none;position: absolute; top:1410px; left:0px;' id='ac20'></text>
+        <text style='display:none;position: absolute; top:1410px; left:600px;' id='ac20i'>完成星辰挑战1</text>
+        <text style='display:none;position: absolute; top:1480px; left:0px;' id='ac21'></text>
+        <text style='display:none;position: absolute; top:1480px; left:600px;' id='ac21i'>完成星辰挑战2</text>
+        <text style='display:none;position: absolute; top:1550px; left:0px;' id='ac22'></text>
+        <text style='display:none;position: absolute; top:1550px; left:600px;' id='ac22i'>完成星辰挑战3</text>
+        <text style='display:none;position: absolute; top:1620px; left:0px;' id='ac23'></text>
+        <text style='display:none;position: absolute; top:1620px; left:600px;' id='ac23i'>完成星辰挑战4</text>
+        <text style='display:none;position: absolute; top:1690px; left:0px;' id='ac24'></text>
+        <text style='display:none;position: absolute; top:1690px; left:600px;' id='ac24i'>完成星辰挑战5</text>
+        <text style='display:none;position: absolute; top:1760px; left:0px;' id='ac25'></text>
+        <text style='display:none;position: absolute; top:1760px; left:600px;' id='ac25i'>拥有 1.00e15 碎心</text>
+        <text style='display:none;position: absolute; top:1830px; left:0px;' id='ac26'></text>
+        <text style='display:none;position: absolute; top:1830px; left:600px;' id='ac26i'>购买 50 个整流罩</text>
+        <text style='display:none;position: absolute; top:1900px; left:0px;' id='ac27'></text>
+        <text style='display:none;position: absolute; top:1900px; left:600px;' id='ac27i'>速度达到 3.00e6m/s</text>
+        <text style='display:none;position: absolute; top:1970px; left:0px;' id='ac28'></text>
+        <text style='display:none;position: absolute; top:1970px; left:600px;' id='ac28i'>一次重置获得 1.80e308 马赫点数</text>
+        <text style='display:none;position: absolute; top:2040px; left:0px;' id='ac29'></text>
+        <text style='display:none;position: absolute; top:2040px; left:600px;' id='ac29i'>以 0 有效操作完成一个矩阵周目 (奖励:
+            流星雨保留碎心)</text>
+        <text style='display:none;position: absolute; top:10px; left:600px;' id='de'>你拥有
+            <span style='color: #ff0000' id='de_cnt'>0</span> 个命运 (命运只能在黑洞视界中获得)</span>
+        </text>
+        <text style='display:none;position: absolute; top:80px; left:0px;' id='de1'></text>
+        <text style='display:none;position: absolute; top:80px; left:600px;' id='de1i'>达到 340m/s
+            (感谢您对游戏的长期支持! 奖励: 永久保留星辰挑战1记录, 批量购买整流罩)</text>
+        <text style='display:none;position: absolute; top:150px; left:0px;' id='de2'></text>
+        <text style='display:none;position: absolute; top:150px; left:600px;' id='de2i'>恒星引擎充能达到
+            1.00e1080</text>
+        <text style='display:none;position: absolute; top:220px; left:0px;' id='de3'></text>
+        <text style='display:none;position: absolute; top:220px; left:600px;' id='de3i'>完成 5级 烟云</text>
+        <text style='display:none;position: absolute; top:290px; left:0px;' id='de4'></text>
+        <text style='display:none;position: absolute; top:290px; left:600px;' id='de4i'>不重置, 让黑洞坚持 13.7 小时</text>
+        <text style='display:none;position: absolute; top:360px; left:0px;' id='de5'></text>
+        <text style='display:none;position: absolute; top:360px; left:600px;' id='de5i'>使时间阻抗达到 1.68e7m/s, 再使其归零</text>
+        <text style='display:none;position: absolute; top:430px; left:0px;' id='de6'></text>
+        <text style='display:none;position: absolute; top:430px; left:600px;' id='de6i'>通过流星雨一次性获得 5 个星辰点数</text>
+    </div>
+    <!--Settings-->
+    <div class='substance' style='display: none;' id='settings'>
+        <button type='button' class='b_substance' style='display: blank; opacity: 0;'></button>
+        <input type='file' class='b_substance' style='display:none' id='fileInput'>
+        <button type='button' class='b_substance' style='display:none' id='import_save'
+            onclick='import_local()'>导入存档</button>
+        <button type='button' class='b_substance' style='display:none' id='export_save'
+            onclick='export_local()'>导出存档</button><br />
+        <button type='button' class='b_substance' style='display: blank; opacity: 0;''></button>
+        <button type=' button' class='b_substance' style='display:none' id='import_local'
+            ondblclick='import_local("fileInput", 1);'>双击加载缓存 (小心现在的存档)</button>
+        <button type='button' class='b_substance' style='display:none' id='save_local' ondblclick='cache_save();'>双击缓存存档
+            (小心之前的存档)</button>
+        <button type='button' class='b_substance' style='display:none' id='auto_save'
+            onclick='auto_save=1-auto_save;'>自动缓存存档: <span id='auto_save_val'></span></button>
+        <text style='display:none;position: absolute; top:200px; left:350px;' id='caution'>注意: 本游戏使用Web
+            Worker保证后台可靠运行,
+            因此可能影响前台软件流畅性, 若有卡顿请考虑关闭此游戏!</text>
+        <text style='display:none;position: absolute; top:240px; left:670px;' id='caution2'>存档不及时, 玩家两行泪. 记得按时存档哦
+            ^V^
+        </text>
+        <text style='display:none;position: absolute; top:400px; left:670px;' id='about'>缘祯--Distant March (v1.3.2)
+            by
+            StreamISO
+        </text>
+        <a href='static/intro.html' target='_blank' style='display:none;position: absolute; top:550px; left:70px;'
+            id='intro_link'>怎么玩?</a>
+    </div>
+    <!--Fullscreen-->
+    <div class='fullscreen' id='fullscreen' style='display: none;'><text id="ending_text"
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0;"></text></div>
+</body>
+<!--quote script-->
+<script src='static/vars.js'></script>
+<script src='static/file.js'></script>
+<script src='static/substance.js'></script>
+<script src='static/automation.js'></script>
+<script src='static/mach.js'></script>
+<script src='static/break_mach.js'></script>
+<script src='static/stars.js'></script>
+<script src='static/relative.js'></script>
+<script src='static/challenges.js'></script>
+<script src='static/statistics.js'></script>
+<script src='static/achievements.js'></script>
+<script src='static/main.js'></script>
+<script src='static/worker.js'></script>
+
+</html>
