@@ -156,7 +156,7 @@ function export_save() {
     let ctn = '';
     ctn += auto_save + ' ';
     //Global
-    ctn += velocity.a.toFixed(5) + ' ' + velocity.b + ' ' + distance.a.toFixed(5) + ' ' + distance.b + ' ' + stellar_charge.a.toFixed(5) + ' ' + stellar_charge.b + ' ';
+    ctn += Math.max(velocity.a - 0.00001, 0).toFixed(5) + ' ' + velocity.b + ' ' + distance.a.toFixed(5) + ' ' + distance.b + ' ' + stellar_charge.a.toFixed(5) + ' ' + stellar_charge.b + ' ';
     //Substance
     for (let i = 1; i <= substance_category_cnt; i++) {
         ctn += String(substance_cnt[i]) + ' ';
@@ -265,4 +265,5 @@ function export_local() {
     const hour = date.getHours().toFixed(0).padStart(2, '0');
     const minute = date.getMinutes().toFixed(0).padStart(2, '0');
     downloadToFile(export_save(), `Distant March-${year}-${month}-${day}-${hour}-${minute}.txt`, 'text/plain');
+
 }
