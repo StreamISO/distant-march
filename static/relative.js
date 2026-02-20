@@ -289,7 +289,7 @@ function print_icons() {
     }
 }
 function run_boosters() {
-    if (!blackhole_mode) return;
+    if (!blackhole_mode || boosters_tot_cnt == 0) return;
     booster_sec += 0.01;
     let delta_light = 0;
     if (booster_energy > 0.000001 && Math.floor(Math.random() * 100) >= boosters_list[boosters_order[booster_position]].percentage) {
@@ -459,6 +459,7 @@ function remove_booster() {
     boosters_list[boosters_tot_cnt] = new Bst(0, 0, 0);
     boosters_tot_cnt -= 1;
     neutron_star -= 1;
+    booster_position = 1;
     print_icons();
     if (neutron_star == 0) document.getElementById('b_remove').style.display = 'none';
 }
