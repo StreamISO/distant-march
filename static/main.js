@@ -348,6 +348,7 @@ function calc_velocity() {
         nf = high_sub(force, calc_air_force(pp_vel));
     } while (nf.a < 0);
     acceleration = high_div(bnf, mass);
+    if (blackhole_mode && acceleration.low_get() >= (light_speed_blackhole - velocity.low_get()) * 0.5) acceleration.to((light_speed_blackhole - velocity.low_get()) * 0.5, 0);
     velocity = high_add(velocity, low_mul(acceleration, tick_m));
 }
 function calc_dist_mult() {
@@ -690,4 +691,5 @@ function full_animation() {
             ending_triggering = 0;
         }
     }
+
 }
